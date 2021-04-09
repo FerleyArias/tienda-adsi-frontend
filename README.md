@@ -1,4 +1,4 @@
-# frontend
+# Tienda-adsi
 
 ## Project setup
 ```
