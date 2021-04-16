@@ -3,6 +3,7 @@
    <h1>Token</h1><br>
     <p>{{token}}</p><br>
     <!-- Trayendo categoria como pruebas -->
+    
    <h1>Categorias - Pruebas </h1><br>
    <p>{{dataDB}}</p>
  </div>
