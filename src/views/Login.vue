@@ -1,17 +1,22 @@
 <template>
-  <div></div>
-  <form class="container mx-auto bg-red-700 max-w-sm">
-    <div>
-      <h1>Acceso al sistema</h1>
+  <form class="container mt-10 m-auto bg-blue-300 max-w-sm rounded-lg overflow-hidden">
+    <div class="bg-blue-700 text-white p-2">
+      <h1 class="text-xl">Acceso al sistema</h1>
     </div>
-    <div class="flex flex-col p-10">
-      <label for="email">Email</label>
-      <input type="email" id="email">
-      <label for="password">Password</label>
-      <input type="password" id="password">
+    <div class="flex flex-col mx-auto p-10">
+      <label class="mb-2 " for="email">Email:</label>
+      <input class="mb-2 focus:outline-none p-1" type="email" id="email" name="email">
+      <label class="mb-2" for="password">Password:</label>
+      <input class="mb-2 focus:outline-none p-1" type="password" id="password" name="password">
+      <button class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
+        Ingresar
+      </button>
     </div>
-    <button>
-      Ingresar
-    </button>
   </form>
 </template>
+
+<script>
+export default {
+  name: 'Login',
+}
+</script>
