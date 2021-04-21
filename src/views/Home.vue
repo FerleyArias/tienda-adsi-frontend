@@ -9,39 +9,39 @@
  </div>
 </template>
 <script>
-//Importamos el state para ver si el token existe
-import {mapState} from 'vuex'
-
+import {useStore} from 'vuex'
+import {ref, computed, onMounted} from 'vue'
 export default {
   name: 'Home',
-  data() {
-    return {
-      dataDB: null
-    }
-  },
-  computed:{
+  setup(){
+    const store = useStore()
+    const dataDB = ref(null)
     //traemos el token del state
-    ...mapState(['token'])
-  },
-  methods: {
-    async protected_data() {
+    const token = computed(()=> store.state.token)
+    const protected_data = async () => {
       try {
         const res = await fetch('https://backend-adsi.herokuapp.com/api/category?value=',{
           headers: {
-            'token': this.token
+            'token': token.value
           }
         })
 
-        this.dataDB = await res.json()
-        console.log(this.dataDB);
+        dataDB.value = await res.json()
+        console.log(dataDB.value);
 
       } catch(error) {
         console.log(`${error}`);
       }
     }
-  },
-  created(){
-    this.protected_data()
+
+    //traemos los datos
+    onMounted(protected_data)
+
+    return{
+      dataDB,
+      token,
+      protected_data,
+    }
   }
 }
 </script>

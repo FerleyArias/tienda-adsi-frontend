@@ -10,4 +10,12 @@ library.add(faBars, faSignOutAlt)
 
 import "tailwindcss/tailwind.css"
 
-createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+const app = createApp(App)
+
+app.use(store)
+app.use(router)
+app.component('font-awesome-icon', FontAwesomeIcon)
+
+
+
+app.mount('#app')

@@ -16,20 +16,22 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {useStore} from 'vuex'
+import {ref} from 'vue'
 
 export default {
   name: 'Login',
-  data(){
-    return {
-      user: {
-        email: 'edwin@gmail.com',
-        password: '123456'
-      }
+  setup() {
+    const store = useStore()
+    const user = ref({
+      email: 'edwin@gmail.com',
+      password: '123456'
+    })
+    const login = (user) => store.dispatch('login', user)
+    return{
+      user,
+      login
     }
-  },
-  methods: {
-    ...mapActions(['login'])
   }
 }
 </script>

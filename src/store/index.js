@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import router from "@/router"
 
 export default createStore({
   state: {
@@ -34,6 +35,8 @@ export default createStore({
         commit("setToken", userDB.token);
 
         localStorage.setItem('token', userDB.token)
+        
+        router.push('/')
 
       } catch (error) {
         console.log(error);
