@@ -3,20 +3,31 @@ import router from "@/router"
 
 export default createStore({
   state: {
-    token: null
+    token: null,
+    error: null,
+    loading: false
   },
   // Las mutaciones modifican el state
   mutations: {
     setToken(state, payload) {
       state.token = payload;
+      state.loading = false
     },
+    setError(state, payload) {
+      state.error = payload
+      state.loading = false
+    },
+    setLoading(state) {
+      state.loading = true
+      state.error = null
+    }
   },
   // Las acciones nos sirven para las solicitudes, llaman a las mutaciones
   actions: {
     // Los commits llaman las mutaciones
     async login({ commit }, user) {
-      console.log(user);
       try {
+        commit("setLoading")
         const res = await fetch(
           "https://backend-adsi.herokuapp.com/api/auth/login",
           {
@@ -30,16 +41,19 @@ export default createStore({
 
         const userDB = await res.json();
 
-        console.log(userDB.token);
+        if(!userDB.token) {
+          throw new Error("Email y/o Contraseña incorrectos")
+        }
 
         commit("setToken", userDB.token);
 
         localStorage.setItem('token', userDB.token)
-        
+
         router.push('/')
 
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        commit("setError", error)
       }
     },
     getToken({commit}) {

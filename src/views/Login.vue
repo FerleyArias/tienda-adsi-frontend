@@ -11,13 +11,14 @@
       <button type="submit" class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
         Ingresar
       </button>
+      <span class="text-red-700">{{error}}</span>
     </div>
   </form>
 </template>
 
 <script>
 import {useStore} from 'vuex'
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 
 export default {
   name: 'Login',
@@ -27,10 +28,15 @@ export default {
       email: 'edwin@gmail.com',
       password: '123456'
     })
+    const error = computed(()=> store.state.error)
+    const loading = computed(()=> store.state.loading)
+
     const login = (user) => store.dispatch('login', user)
     return{
       user,
-      login
+      login,
+      error,
+      loading
     }
   }
 }
