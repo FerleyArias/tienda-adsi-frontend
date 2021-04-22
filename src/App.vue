@@ -14,19 +14,25 @@ import MyHeader from "@/components/MyHeader.vue"
 import MyFooter from "@/components/MyFooter.vue"
 
 //Importamos las acciones de vuex
-import {mapActions} from 'vuex'
+import {useStore} from 'vuex'
+
+import {onMounted} from 'vue'
 
 export default {
   name:"App",
-    components: { MyHeader, MyFooter },
-    methods: {
-      //Importamos la función de obtener token de vuex
-      ...mapActions(['getToken'])
-    },
-    created(){
-      //En este ciclo verificamos si existe un token, si no, retorna null
-      this.getToken()
+  components: { MyHeader, MyFooter },
+  setup(){
+    const store = useStore()
+    //Importamos la función de obtener token de vuex
+    const getToken = () => store.dispatch('getToken')
+
+    //En este ciclo verificamos si existe un token, si no, retorna null
+    onMounted(getToken)
+
+    return {
+      getToken
     }
+  }
 }
 </script>
 

@@ -56,11 +56,14 @@ export default createStore({
         commit("setError", error)
       }
     },
+    logout({ commit }){
+      localStorage.removeItem('token')
+      commit('setToken', null)
+      router.push('/login')
+    },
     getToken({commit}) {
       if(localStorage.getItem('token')){
         commit('setToken', localStorage.getItem('token'))
-      } else {
-        commit('setToken', null)
       }
     }
   },

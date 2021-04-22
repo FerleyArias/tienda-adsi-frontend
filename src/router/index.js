@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/Login.vue')
+    component: () => import('@/views/Login.vue'),
   }
 ]
 
@@ -28,10 +28,15 @@ const router = createRouter({
 // <--------- Lógica de protección de rutas -------->
 // Recorre todas las rutas para evaluarlas si son protegidas o no
 router.beforeEach((to, from, next) => {
+  const login = to.matched.some(item => item.name === "login")  
   // Si la ruta tiene dentro una key llamada meta y su value es true validará si existe un token, si existe, puede entrar a la ruta
-  const protected_route = to.matched.some(item => item.meta.requireAuth)
-  if(protected_route && store.state.token === null) {
+  const protected_route = to.matched.some(item => item.meta.requireAuth)  
+  if(protected_route && !store.state.token) {
    next({name: 'login'})
+  }
+  else if(login && store.state.token)
+  {
+    next({name: 'home'})
   } else {
     next()
   }

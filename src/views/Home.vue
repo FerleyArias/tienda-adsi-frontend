@@ -27,10 +27,9 @@ export default {
         })
 
         dataDB.value = await res.json()
-        console.log(dataDB.value);
 
       } catch(error) {
-        console.log(`${error}`);
+        console.error(`${error}`);
       }
     }
 
