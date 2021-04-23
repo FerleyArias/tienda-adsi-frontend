@@ -12,4 +12,12 @@ export default {
     state.loading = true;
     state.error = null;
   },
+  setCategories(state, payload) {
+    state.categories = payload;
+    state.loading = false;
+  },
+  setArticles(state, payload) {
+    state.articles = payload;
+    state.loading = false;
+  },
 };
