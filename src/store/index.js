@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import router from "@/router"
-
+const BASE_URL = "https://backend-adsi.herokuapp.com/api/"
 export default createStore({
   state: {
     token: null,
@@ -29,7 +29,7 @@ export default createStore({
       try {
         commit("setLoading")
         const res = await fetch(
-          "https://backend-adsi.herokuapp.com/api/auth/login",
+          `${BASE_URL}auth/login`,
           {
             method: "POST",
             headers: {
