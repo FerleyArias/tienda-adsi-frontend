@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen relative">
+  <div class="min-h-screen relative overflow-hidden">
     <my-header/>
-    <div class="container mb-10 h-full">
+    <div class="container mb-10 pt-20 h-full">
       <router-view/>
     </div>
     <my-footer/>
