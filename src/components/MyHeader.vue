@@ -9,15 +9,77 @@
           <font-awesome-icon class="text-xl" icon="home"/>
           <span class="ml-3">Home</span>
         </router-link>
-        <button class="flex justify-between">
+        <button @click="()=>{handleSubMenus(0)}" class="py-2 px-5 flex justify-between items-center">
           <span>Almacén</span>
-          <font-awesome-icon class="text-xl" icon="chevron-down"/>
+          <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[0]}" icon="chevron-down"/>
         </button>
+        <div :class="{visibleSubMenu:subMenus[0]}" class="subMenu">
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Categorías</span>
+          </router-link>
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Artículos</span>
+          </router-link>
+        </div>
+        <button @click="()=>{handleSubMenus(1)}" class="py-2 px-5 flex justify-between items-center">
+          <span>Compras</span>
+           <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[1]}" icon="chevron-down"/>
+        </button>
+        <div :class="{visibleSubMenu:subMenus[1]}" class="subMenu">
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Ingresos</span>
+          </router-link>
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Proveedores</span>
+          </router-link>
+        </div>
+        <button @click="()=>{handleSubMenus(2)}" class="py-2 px-5 flex justify-between items-center">
+          <span>Ventas</span>
+           <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[2]}" icon="chevron-down"/>
+        </button>
+        <div :class="{visibleSubMenu:subMenus[2]}" class="subMenu">
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Ventas</span>
+          </router-link>
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Clientes</span>
+          </router-link>
+        </div>
+        <button @click="()=>{handleSubMenus(3)}" class="py-2 px-5 flex justify-between items-center">
+          <span>Accesos</span>
+           <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[3]}" icon="chevron-down"/>
+        </button>
+        <div :class="{visibleSubMenu__single:subMenus[3]}" class="subMenu">
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Usuarios</span>
+          </router-link>
+        </div>
+        <button @click="()=>{handleSubMenus(4)}" class="py-2 px-5 flex justify-between items-center">
+          <span>Consultas</span>
+           <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[4]}" icon="chevron-down"/>
+        </button>
+        <div :class="{visibleSubMenu:subMenus[4]}" class="subMenu">
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Consulta Compras</span>
+          </router-link>
+          <router-link to="/" class="block p-3 w-full h-12">
+            <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
+            <span class="ml-3">Consulta Ventas</span>
+          </router-link>
+        </div>
       </nav>
       <h3 class="text-lg">Bodega</h3>
     </div>
     <button v-show="visible" @click="logout">
-        <font-awesome-icon class="text-2xl" icon="sign-out-alt"/>
+      <font-awesome-icon class="text-2xl" icon="sign-out-alt"/>
     </button>
   </header>
 </template>
@@ -33,9 +95,24 @@ export default {
     const store = useStore()
     const route = useRoute()
     const visible = ref(false)
+    const subMenus = ref([
+      false,
+      false,
+      false,
+      false,
+      false
+    ])
     const visibleBurger = ref(false)
     const handleBurger = () => {
       visibleBurger.value = !visibleBurger.value
+    }
+    const handleSubMenus = (index) => {
+      for (let i = 0; i < subMenus.value.length; i++) {
+        if(i != index) {
+          subMenus.value[i] = false
+        }
+      }
+      subMenus.value[index] = !subMenus.value[index]
     }
     const logout = () => store.dispatch('logout')
     watch(route, ()=>{
@@ -50,7 +127,9 @@ export default {
       visible,
       logout,
       visibleBurger,
-      handleBurger
+      handleBurger,
+      subMenus,
+      handleSubMenus
     }
   }
 }
@@ -67,7 +146,22 @@ export default {
   transition-duration: 500ms;
   transform: translateX(0);
 }
+.subMenu {
+  overflow: hidden;
+  height: 0;
+  transition-duration: 200ms;
+}
+.visibleSubMenu__single {
+  height: 50px;
+  transition-duration: 200ms;
+}
 .visibleSubMenu {
-  height: auto;
+  height: 100px;
+  transition-duration: 200ms;
+}
+.activeSubMenu {
+  transform: rotate(180deg);
+  color: #1976d2;
+  transition-duration: 200ms;
 }
 </style>
