@@ -14,11 +14,11 @@
           <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[0]}" icon="chevron-down"/>
         </button>
         <div :class="{visibleSubMenu:subMenus[0]}" class="subMenu">
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/category" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Categorías</span>
           </router-link>
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/article" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Artículos</span>
           </router-link>
@@ -28,11 +28,11 @@
            <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[1]}" icon="chevron-down"/>
         </button>
         <div :class="{visibleSubMenu:subMenus[1]}" class="subMenu">
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/income" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Ingresos</span>
           </router-link>
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/vendors" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Proveedores</span>
           </router-link>
@@ -42,11 +42,11 @@
            <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[2]}" icon="chevron-down"/>
         </button>
         <div :class="{visibleSubMenu:subMenus[2]}" class="subMenu">
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/sales" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Ventas</span>
           </router-link>
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/customers" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Clientes</span>
           </router-link>
@@ -56,7 +56,7 @@
            <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[3]}" icon="chevron-down"/>
         </button>
         <div :class="{visibleSubMenu__single:subMenus[3]}" class="subMenu">
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/users" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Usuarios</span>
           </router-link>
@@ -66,11 +66,11 @@
            <font-awesome-icon class="text-gray-400 duration-200" :class="{activeSubMenu:subMenus[4]}" icon="chevron-down"/>
         </button>
         <div :class="{visibleSubMenu:subMenus[4]}" class="subMenu">
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/consult_purchases" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Consulta Compras</span>
           </router-link>
-          <router-link to="/" class="block p-3 w-full h-12">
+          <router-link to="/consult_sales" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store"/>
             <span class="ml-3">Consulta Ventas</span>
           </router-link>
@@ -116,6 +116,7 @@ export default {
     }
     const logout = () => store.dispatch('logout')
     watch(route, ()=>{
+      visibleBurger.value = false
       if(route.path === "/login") {
         visible.value = false
         visibleBurger.value = false
