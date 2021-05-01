@@ -14,6 +14,7 @@ export const login = async user => {
   return userDB;
 };
 
+//Traer categorias
 export const getCategories = async token => {
   const res = await fetch(`${BASE_URL}category?value=`, {
     headers: {
@@ -24,6 +25,21 @@ export const getCategories = async token => {
   return dataDB;
 };
 
+//Añadir categorias
+export const addCategory = async (item, token) => {
+  const res = await fetch(`${BASE_URL}category`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+
+  const newItem = await res.json();
+  return newItem;
+};
+
 //Articulos
 export const getArticles = async token => {
   const res = await fetch(`${BASE_URL}article?value=`, {
@@ -32,6 +48,5 @@ export const getArticles = async token => {
     },
   });
   const dataDB = await res.json();
-  console.log(dataDB);
   return dataDB;
 };

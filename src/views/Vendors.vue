@@ -1,7 +1,6 @@
 <template>
 <div>
-    <h1>Consultar compras - Pruebas</h1>
-    <p>{{ dataConsult }}</p>
+    <h1>Traer la tabla personas y filtrar a los proveedores</h1>
 </div>
 </template>
 <script>

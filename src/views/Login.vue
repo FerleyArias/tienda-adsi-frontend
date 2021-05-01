@@ -32,6 +32,7 @@ export default {
     const loading = computed(()=> store.state.loading)
 
     const login = (user) => store.dispatch('login', user)
+
     return{
       user,
       login,

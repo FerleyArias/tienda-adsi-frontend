@@ -1,8 +1,7 @@
 
 <template>
 <div>
-    <h1>Consultar compras - Pruebas</h1>
-    <p>{{ dataConsult }}</p>
+    <h1>Mostramos todos los usuarios que tienen acceso a la plataforma</h1>
 </div>
 </template>
 <script>

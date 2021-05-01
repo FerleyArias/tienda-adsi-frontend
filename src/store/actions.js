@@ -35,6 +35,7 @@ export const getToken = ({commit}) => {
     commit('setToken', localStorage.getItem('token'));
   }
 };
+
 //Traer categorias
 export const getCategories = async ({commit, state}) => {
   try {
@@ -46,6 +47,20 @@ export const getCategories = async ({commit, state}) => {
     console.error(error);
   }
 };
+
+//Añadir categoria
+export const addCategory = async ({commit, state}, item) => {
+  try {
+    commit('setLoading')
+    const newItem = await api.addCategory(item, state.token)
+    let updatedCategories = state.categories
+    updatedCategories.push(newItem.category)
+    commit('setCategories', updatedCategories)
+  } catch (error) {
+    console.error(error)
+    commit('setError', error)
+  }
+}
 
 //Traer artículos
 export const getArticles = async ({commit, state}) => {
