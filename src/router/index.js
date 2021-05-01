@@ -7,8 +7,6 @@ import Vendors from '@/views/Vendors.vue';
 import Sales from '@/views/Sales.vue';
 import Customers from '@/views/Customers.vue';
 import Users from '@/views/Users.vue';
-import Consult_purchases from '@/views/Consult_purchases.vue';
-import Consult_sales from '@/views/Consult_sales.vue';
 
 // Importamos el store
 import store from '../store';
@@ -74,22 +72,6 @@ const routes = [
     path: '/users',
     name: 'users',
     component: Users,
-    meta: {
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/consult_purchases',
-    name: 'consult_purchases',
-    component: Consult_purchases,
-    meta: {
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/consult_sales',
-    name: 'consult_sales',
-    component: Consult_sales,
     meta: {
       requireAuth: true,
     },

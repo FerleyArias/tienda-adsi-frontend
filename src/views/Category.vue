@@ -1,14 +1,33 @@
 <template>
   <div>
+    <form
+      @submit.prevent="addCategory(item)"
+      class="container mt-10 m-auto bg-blue-300 max-w-sm rounded-lg overflow-hidden"
+    >
+      <input
+        class="mb-2 focus:outline-none p-1"
+        type="text"
+        id="name"
+        name="name"
+        v-model="item.name"
+        placeholder="Nombre"
+      />
+      <input
+        class="mb-2 focus:outline-none p-1"
+        type="text"
+        id="description"
+        name="description"
+        v-model="item.description"
+        placeholder="Descripcion"
+      />
 
-  <form @submit.prevent="addCategory(item)" class="container mt-10 m-auto bg-blue-300 max-w-sm rounded-lg overflow-hidden">
-      <input class="mb-2 focus:outline-none p-1" type="text" id="name" name="name" v-model="item.name" placeholder="Nombre">
-      <input class="mb-2 focus:outline-none p-1" type="text" id="description" name="description" v-model="item.description" placeholder="Descripcion">
-
-      <button type="submit" class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
-       Añadir 
+      <button
+        type="submit"
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        Añadir
       </button>
-  </form>
+    </form>
 
     <table class="border-collapse border border-black">
       <thead>
@@ -43,6 +62,19 @@
               class="p-2 bg-red-500 rounded-md"
               type="button"
               value="eliminar"
+              @click="deleteCategory(producto._id)"
+            />
+            <input
+              class="p-2 bg-purple-500 rounded-md"
+              type="button"
+              value="Activar"
+              @click="enableCategory(producto._id)"
+            />
+            <input
+              class="p-2 bg-blue-500 rounded-md"
+              type="button"
+              value="Modificar"
+              @click="modifyCategory(producto._id, item)"
             />
           </td>
         </tr>
@@ -62,29 +94,40 @@ export default {
     /*traemos el token del state*/
     const token = computed(() => store.state.token);
     /*Manejo del asincronismo*/
-    const error = computed(()=> store.state.error)
-    const loading = computed(()=> store.state.loading)
+    const error = computed(() => store.state.error);
+    const loading = computed(() => store.state.loading);
     /*Traer cosas del state*/
     const dataCategory = computed(() => store.state.categories);
     /*nuevo item a categorias*/
     const item = ref({
-        name: '',
-        description: ''
-      })
+      name: '',
+      description: '',
+    });
     /*Añadir item a categorias*/
-    const addCategory = (item) => store.dispatch('addCategory', item)
+    const addCategory = item => store.dispatch('addCategory', item);
+    /*Desactivar "eliminar" un item*/
+    const deleteCategory = id => store.dispatch('deleteCategory', id);
+    /*Activar un item*/
+    const enableCategory = id => store.dispatch('enableCategory', id);
+    /*Modificar un item*/
+    const modifyCategory = (id, item) => store.dispatch('modifyCategory', {id, item})
     /*Llamar las acciones en el onMounted*/
     const getCategory = () => store.dispatch('getCategories');
     //traemos los datos
     onMounted(() => {
-      getCategory();
+      if (!dataCategory.value.length) {
+        getCategory();
+      }
     });
 
     return {
       item,
       error,
       loading,
+      deleteCategory,
       addCategory,
+      modifyCategory,
+      enableCategory,
       dataCategory,
       token,
     };
