@@ -8,6 +8,8 @@ const state = {
   loading: false,
   categories: [],
   articles: [],
+  compras: [],
+  persons: [],
 };
 
 export default createStore({

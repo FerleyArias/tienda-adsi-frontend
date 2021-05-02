@@ -144,3 +144,27 @@ export const modifyArticle = async (id, item, token) => {
     body: JSON.stringify(item),
   });
 };
+
+//<---------- COMPRAS ---------------------------------_>
+//Traer compras
+export const getCompra = async token => {
+  const res = await fetch(`${BASE_URL}shopping?value=`, {
+    headers: {
+      token,
+    },
+  });
+  const compras = await res.json();
+  return compras;
+};
+
+//<---------- PERSONAS ---------------------------------_>
+//Traer personas
+export const getPerson = async token => {
+  const res = await fetch(`${BASE_URL}person?value=`, {
+    headers: {
+      token,
+    },
+  });
+  const personas = await res.json();
+  return personas;
+};

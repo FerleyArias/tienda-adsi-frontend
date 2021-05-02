@@ -3,6 +3,7 @@ import router from '@/router';
 // Las acciones nos sirven para las solicitudes, llaman a las mutaciones
 // Los commits llaman las mutaciones
 
+//<---------------- Autentificación ------------------------------> 
 export const login = async ({commit}, user) => {
   try {
     commit('setLoading');
@@ -23,19 +24,21 @@ export const login = async ({commit}, user) => {
     commit('setError', error);
   }
 };
-
+//cerrar sesión y remover el token
 export const logout = ({commit}) => {
   localStorage.removeItem('token');
   commit('setToken', null);
   router.push('/login');
 };
 
+//obtener el token usando el ciclo de vida de Vue
 export const getToken = ({commit}) => {
   if (localStorage.getItem('token')) {
     commit('setToken', localStorage.getItem('token'));
   }
 };
 
+//<-------------------------- CATEGORIAS ---------------->
 //Traer categorias
 export const getCategories = async ({commit, state}) => {
   try {
@@ -188,5 +191,18 @@ export const modifyArticle = async ({commit, state}, {id, item}) => {
   } catch (error) {
     console.error(error);
     commit('setError');
+  }
+};
+
+//<----------------------------- COMPRAS ------------------>
+//Traer compras 
+export const getCompra = async ({commit, state}) => {
+  try {
+    commit('setLoading');
+    const compras = await api.getCompra(state.token);
+    commit('setCompras', compras);
+  } catch (error) {
+    commit('setError', error);
+    console.error(error);
   }
 };

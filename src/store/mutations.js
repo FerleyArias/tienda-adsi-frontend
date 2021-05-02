@@ -20,4 +20,12 @@ export default {
     state.articles = payload;
     state.loading = false;
   },
+  setCompras(state, payload) {
+    state.compras = payload;
+    state.loading = false;
+  },
+  setPersons(state, payload) {
+    state.persons = payload;
+    state.loading = false;
+  },
 };
