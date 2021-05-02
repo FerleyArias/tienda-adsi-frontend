@@ -157,6 +157,18 @@ export const getCompra = async token => {
   return compras;
 };
 
+//<---------- VENTAS --------------------_>
+//Traer ventas 
+export const getVenta = async token => {
+  const res = await fetch(`${BASE_URL}sale?value=`, {
+    headers: {
+      token,
+    },
+  });
+  const ventas = await res.json();
+  return ventas;
+};
+
 //<---------- PERSONAS ---------------------------------_>
 //Traer personas
 export const getPerson = async token => {
@@ -167,4 +179,17 @@ export const getPerson = async token => {
   });
   const personas = await res.json();
   return personas;
+};
+
+
+//<----------  USUARIOS -------------------_>
+//Traer usuarios
+export const getUser = async token => {
+  const res = await fetch(`${BASE_URL}user?value=`, {
+    headers: {
+      token,
+    },
+  });
+  const user = await res.json();
+  return user;
 };

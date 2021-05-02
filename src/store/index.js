@@ -10,6 +10,8 @@ const state = {
   articles: [],
   compras: [],
   persons: [],
+  ventas: [],
+  users: []
 };
 
 export default createStore({

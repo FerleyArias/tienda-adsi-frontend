@@ -194,13 +194,53 @@ export const modifyArticle = async ({commit, state}, {id, item}) => {
   }
 };
 
-//<----------------------------- COMPRAS ------------------>
+//<------------------ COMPRAS ------------------>
 //Traer compras 
 export const getCompra = async ({commit, state}) => {
   try {
     commit('setLoading');
     const compras = await api.getCompra(state.token);
     commit('setCompras', compras);
+  } catch (error) {
+    commit('setError', error);
+    console.error(error);
+  }
+};
+
+//<----------------- VENTAS ------------------>
+//Traer ventas 
+export const getVenta = async ({commit, state}) => {
+  try {
+    commit('setLoading');
+    const ventas = await api.getVenta(state.token);
+    commit('setVentas', ventas);
+  } catch (error) {
+    commit('setError', error);
+    console.error(error);
+  }
+};
+
+//<----------------------------- PERSONAS ------------------>
+//Traer compras 
+export const getPerson = async ({commit, state}) => {
+  try {
+    commit('setLoading');
+    const person = await api.getPerson(state.token);
+    commit('setPersons', person);
+  } catch (error) {
+    commit('setError', error);
+    console.error(error);
+  }
+};
+
+
+//<---------------- USUARIOS ------------------>
+//Traer usuarios 
+export const getUser = async ({commit, state}) => {
+  try {
+    commit('setLoading');
+    const user = await api.getUser(state.token);
+    commit('setUsers', user);
   } catch (error) {
     commit('setError', error);
     console.error(error);

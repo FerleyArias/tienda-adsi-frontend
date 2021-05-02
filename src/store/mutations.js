@@ -28,4 +28,12 @@ export default {
     state.persons = payload;
     state.loading = false;
   },
+  setVentas(state, payload) {
+    state.ventas = payload;
+    state.loading = false;
+  },
+  setUsers(state, payload) {
+    state.users= payload;
+    state.loading = false;
+  },
 };

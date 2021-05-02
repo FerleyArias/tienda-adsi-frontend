@@ -1,25 +1,45 @@
 <template>
   <div>
   <h1>Traer la tabla de personas y filtar los proveedores</h1>
-
     <table class="border-collapse border border-black">
       <thead>
         <tr class="bg-blue-500 text-white">
-          <th class="border border-black">Usuario</th>
-          <th class="border border-black">Proveedor</th>
-          <th class="border border-black">Tipo de comprobante</th>
-          <th class="border border-black">Serie comprobante</th>
-          <th class="border border-black">Número comprobante</th>
-          <th class="border border-black">Fecha</th>
-          <th class="border border-black">Impuesto</th>
-          <th class="border border-black">Total</th>
+          <th class="border border-black">Nombre</th>
+          <th class="border border-black">Tipo persona</th>
+          <th class="border border-black">Tipo documento</th>
+          <th class="border border-black">núm documento</th>
+          <th class="border border-black">Dirección</th>
+          <th class="border border-black">Teléfono</th>
+          <th class="border border-black">Email</th>
           <th class="border border-black">Estado</th>
+          <th class="border border-black">Opciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, i) in dataPersons" :key="i">
+        <tr v-for="(producto, i) in dataPersons.person" :key="i">
           <td class="border border-black p-2">
-            {{ producto.user.name }}
+            {{ producto.name}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.typePerson}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.document}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.idDocument}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.address}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.phone}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.email}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.state}}
           </td>
           <td class="border border-black p-2">
             <input
@@ -60,7 +80,6 @@ export default {
     /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Traer cosas del state*/
     /*Traer cosas del state*/
     const dataPersons = computed(() => store.state.persons);
     /*Nueva compra*/

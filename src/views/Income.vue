@@ -13,6 +13,7 @@
           <th class="border border-black">Impuesto</th>
           <th class="border border-black">Total</th>
           <th class="border border-black">Estado</th>
+          <th class="border border-black">Opciones</th>
         </tr>
       </thead>
       <tbody>
@@ -40,6 +41,9 @@
           </td>
           <td class="border border-black p-2">
             {{ producto.total}}
+          </td>
+          <td class="border border-black p-2">
+            {{ producto.state }}
           </td>
           <td class="border border-black p-2">
             <input
