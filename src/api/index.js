@@ -13,7 +13,7 @@ export const login = async user => {
   const userDB = await res.json();
   return userDB;
 };
-
+// <----------- CATEGORIAS --------------------------->
 //Traer categorias
 export const getCategories = async token => {
   const res = await fetch(`${BASE_URL}category?value=`, {
@@ -25,9 +25,20 @@ export const getCategories = async token => {
   return dataDB;
 };
 
+//Traer categorias by-id
+export const getCategoryId = async (id, token) => {
+  const res = await fetch(`${BASE_URL}category/${id}`, {
+    headers: {
+      token,
+    },
+  });
+  const category = await res.json();
+  return category.category;
+};
+
 //Añadir categorias
 export const addCategory = async (item, token) => {
-  const res = await fetch(`${BASE_URL}category`, {
+  const res = await fetch(`${BASE_URL}category/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -72,11 +83,12 @@ export const modifyCategory = async (id, item, token) => {
   });
 
   const newCategory = await modifyCategory.json();
-  return newCategory 
+  return newCategory;
 };
 
-//Articulos
-export const getArticles = async token => {
+// <------------------ ARTICULOS ------------------------->
+// Traer articulos
+export const getArticle = async token => {
   const res = await fetch(`${BASE_URL}article?value=`, {
     headers: {
       token: token,
@@ -84,4 +96,51 @@ export const getArticles = async token => {
   });
   const dataDB = await res.json();
   return dataDB;
+};
+
+//Añadir articulos
+export const addArticle = async (item, token) => {
+  const res = await fetch(`${BASE_URL}article/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+  const newItem = await res.json();
+  console.log(newItem);
+  return newItem.article;
+};
+
+//Desactivar "eliminar" articulos
+export const deleteArticle = async (id, token) => {
+  await fetch(`${BASE_URL}article/disable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
+//Activar articulos
+export const enableArticle = async (id, token) => {
+  await fetch(`${BASE_URL}article/enable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
+//Modificar articulos
+export const modifyArticle = async (id, item, token) => {
+  await fetch(`${BASE_URL}article/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
 };
