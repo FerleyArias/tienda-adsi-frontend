@@ -1,6 +1,78 @@
 <template>
   <div>
-  <h1>Traer la tabla de personas y filtar los clientes</h1>
+    <form @submit.prevent="addPerson(item)">
+      <h1>Información de la persona</h1>
+      <h2>Nombre de la persona</h2>
+      <input
+        type="text"
+        id="typePerson"
+        name="typePerson"
+        v-model="item.typePerson"
+        placeholder="Tipo de persona"
+      />
+      <br />
+      <h2>nomber de la persona</h2>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        v-model="item.name"
+        placeholder="Nombre de la persona"
+      />
+      <br />
+      <h2>documento de la persona</h2>
+      <input
+        type="text"
+        id="document"
+        name="document"
+        v-model="item.document"
+        placeholder="Documento de la persona"
+      />
+      <br />
+      <h2>Número de documento de la persona</h2>
+      <input
+        type="text"
+        id="idDocument"
+        name="idDocument"
+        v-model="item.idDocument"
+        placeholder="Documento de la persona"
+      />
+      <br />
+      <h2>Dirección</h2>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        v-model="item.address"
+        placeholder="direccion de la persona"
+      />
+      <br />
+      <h2>Número de telefono de la persona</h2>
+      <input
+        type="text"
+        id="phone"
+        name="phone"
+        v-model="item.phone"
+        placeholder="Telefono de la persona"
+      />
+      <br />
+      <h2>email de la persona</h2>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        v-model="item.email"
+        placeholder="Email de la persona"
+      />
+      <br>
+      <button
+        type="submit"
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        AGREGAR
+      </button>
+    </form>
+
     <table class="border-collapse border border-black">
       <thead>
         <tr class="bg-blue-500 text-white">
@@ -68,7 +140,7 @@
 </template>
 <script>
 import {useStore} from 'vuex';
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 
 export default {
   name: 'Income',
@@ -82,23 +154,16 @@ export default {
     const loading = computed(() => store.state.loading);
     /*Traer cosas del state*/
     const dataPersons = computed(() => store.state.persons);
-    /*Nueva compra*/
-    /*const item = ref({*/
-    /*user: "605b5387f853df1fceb9f862",*/
-    /*person: "605b768c7a4a01529e6dee5b",*/
-    /*typeProof: "1",*/
-    /*serieProof: "2",*/
-    /*numProof: "3",*/
-    /*tax: 12,*/
-    /*details: [*/
-        /*{*/
-            /*_id: "608dfbac8c58980015e24df0",*/
-            /*article: "sdfdskfls",*/
-            /*quantity: 0,*/
-            /*price: 0*/
-        /*}*/
-    /*]*/
-/*})*/
+    /*Agregamos el form para la nueva persona*/
+    const item = ref({
+        typePerson: "",
+        name: "",
+        document: "",
+        idDocument: "",
+        address: "",
+        phone: "",
+        email: ""
+      })
     /*Llamar las acciones en el onMounted*/
     const getPersons = () => store.dispatch('getPerson');
     //traemos los datos
@@ -113,7 +178,7 @@ export default {
       loading,
       dataPersons,
       token,
-      /*item*/
+      item
     };
   },
 };

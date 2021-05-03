@@ -1,6 +1,80 @@
 <template>
   <div>
-  <h1>Traer la tabla de personas y filtar los proveedores</h1>
+    <form @submit.prevent="addPerson(item)">
+      <h1>Información de la persona</h1>
+      <h2>Nombre de la persona</h2>
+      <input
+        type="text"
+        id="typePerson"
+        name="typePerson"
+        v-model="item.typePerson"
+        placeholder="Tipo de persona"
+      />
+      <br />
+      <h2>nomber de la persona</h2>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        v-model="item.name"
+        placeholder="Nombre de la persona"
+      />
+      <br />
+      <h2>documento de la persona</h2>
+      <input
+        type="text"
+        id="document"
+        name="document"
+        v-model="item.document"
+        placeholder="Documento de la persona"
+      />
+      <br />
+      <h2>Número de documento de la persona</h2>
+      <input
+        type="text"
+        id="idDocument"
+        name="idDocument"
+        v-model="item.idDocument"
+        placeholder="Documento de la persona"
+      />
+      <br />
+      <h2>Dirección</h2>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        v-model="item.address"
+        placeholder="direccion de la persona"
+      />
+      <br />
+      <h2>Número de telefono de la persona</h2>
+      <input
+        type="text"
+        id="phone"
+        name="phone"
+        v-model="item.phone"
+        placeholder="Telefono de la persona"
+      />
+      <br />
+      <h2>email de la persona</h2>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        v-model="item.email"
+        placeholder="Email de la persona"
+      />
+      <br>
+      <button
+        type="submit"
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        AGREGAR
+      </button>
+    </form>
+
+    <h1>Traer la tabla de personas y filtar los proveedores</h1>
+
     <table class="border-collapse border border-black">
       <thead>
         <tr class="bg-blue-500 text-white">
@@ -18,28 +92,28 @@
       <tbody>
         <tr v-for="(producto, i) in dataPersons.person" :key="i">
           <td class="border border-black p-2">
-            {{ producto.name}}
+            {{ producto.name }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.typePerson}}
+            {{ producto.typePerson }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.document}}
+            {{ producto.document }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.idDocument}}
+            {{ producto.idDocument }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.address}}
+            {{ producto.address }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.phone}}
+            {{ producto.phone }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.email}}
+            {{ producto.email }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.state}}
+            {{ producto.state }}
           </td>
           <td class="border border-black p-2">
             <input
@@ -68,7 +142,7 @@
 </template>
 <script>
 import {useStore} from 'vuex';
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 
 export default {
   name: 'Income',
@@ -80,25 +154,18 @@ export default {
     /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
+    /*Agregamos el form para la nueva persona*/
+    const item = ref({
+        typePerson: "",
+        name: "",
+        document: "",
+        idDocument: "",
+        address: "",
+        phone: "",
+        email: ""
+      })
     /*Traer cosas del state*/
     const dataPersons = computed(() => store.state.persons);
-    /*Nueva compra*/
-    /*const item = ref({*/
-    /*user: "605b5387f853df1fceb9f862",*/
-    /*person: "605b768c7a4a01529e6dee5b",*/
-    /*typeProof: "1",*/
-    /*serieProof: "2",*/
-    /*numProof: "3",*/
-    /*tax: 12,*/
-    /*details: [*/
-        /*{*/
-            /*_id: "608dfbac8c58980015e24df0",*/
-            /*article: "sdfdskfls",*/
-            /*quantity: 0,*/
-            /*price: 0*/
-        /*}*/
-    /*]*/
-/*})*/
     /*Llamar las acciones en el onMounted*/
     const getPersons = () => store.dispatch('getPerson');
     //traemos los datos
@@ -113,7 +180,7 @@ export default {
       loading,
       dataPersons,
       token,
-      /*item*/
+      item
     };
   },
 };

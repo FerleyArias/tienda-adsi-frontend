@@ -1,34 +1,45 @@
 <template>
   <div>
     <form @submit.prevent="addArticle(item)">
+      <h1>Información de los articulos</h1>
+      <br />
+      <h2>Categoria del articulo</h2>
       <input
         type="text"
         id="category"
         name="category"
         v-model="item.category"
-        placeholder="Categoria"
+        placeholder="Categoria del articulo"
       />
+      <br />
+      <h2>Codigo del articulo</h2>
       <input
         type="text"
         id="code"
         name="code"
         v-model="item.code"
-        placeholder="Codigo"
+        placeholder="Codigo del articulo"
       />
+      <br />
+      <h2>Nombre del articulo</h2>
       <input
         type="text"
         id="name"
         name="name"
         v-model="item.name"
-        placeholder="Nombre"
+        placeholder="Nombre del articulo"
       />
+      <br>
+      <h2>Descripción del articulo</h2>
       <input
         type="text"
         id="description"
         name="description"
         v-model="item.description"
-        placeholder="Descripcion"
+        placeholder="Descripcion del articulo"
       />
+      <br>
+      <h2>Precio del articulo</h2>
       <input
         type="number"
         id="price"
@@ -36,6 +47,8 @@
         v-model="item.price"
         placeholder="Precio"
       />
+      <br>
+      <h2>Stock del articulo</h2>
       <input
         type="number"
         id="stock"
@@ -43,6 +56,7 @@
         v-model="item.stock"
         placeholder="Stock"
       />
+      <br>
       <button
         type="submit"
         class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
@@ -131,7 +145,7 @@ export default {
     const item = ref({
       code: '',
       name: '',
-      category: '605b5b7048d0b925073ce18c',
+      category: '',
       stock: 0,
       price: 0,
       description: '',
@@ -139,11 +153,12 @@ export default {
     /*Añadir articulos*/
     const addArticle = item => store.dispatch('addArticle', item);
     /*Desactivar "eliminar" un item*/
-    const deleteArticle = id => store.dispatch('deleteArticle', id)
+    const deleteArticle = id => store.dispatch('deleteArticle', id);
     /*Activar un item*/
-    const enableArticle = id => store.dispatch('enableArticle', id)
+    const enableArticle = id => store.dispatch('enableArticle', id);
     /*Modificar un item*/
-    const modifyArticle = (id, item) => store.dispatch('modifyArticle', {id, item})
+    const modifyArticle = (id, item) =>
+      store.dispatch('modifyArticle', {id, item});
     /*Llamar las acciones en el onMounted*/
     const getArticle = () => store.dispatch('getArticle');
     //traemos los datos

@@ -1,6 +1,51 @@
 
 <template>
 <div>
+    <form @submit.prevent="addUser(item)">
+    <h1>Información del usuario</h1>
+      <h2>Nombre usuario</h2>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        v-model="item.name"
+        placeholder="Nombre de usuario"
+      />
+      <br>
+      <h2>Email usuario</h2>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        v-model="item.email"
+        placeholder="Email@gmail.com"
+      />
+      <br>
+      <h2>Contraseña</h2>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        v-model="item.typeProof"
+        placeholder="Contraseña"
+      />
+      <br>
+      <h2>rol del usuario</h2>
+      <input
+        type="text"
+        id="rol"
+        name="rol"
+        v-model="item.rol"
+        placeholder="Rol usuario"
+      />
+      <br>
+      <button
+        type="submit"
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
+     Crear 
+      </button>
+    </form>
+
     <table class="border-collapse border border-black">
       <thead>
         <tr class="bg-blue-500 text-white">
@@ -54,7 +99,7 @@
 
 <script>
 import {useStore} from 'vuex';
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Users',
   setup() {
@@ -68,23 +113,12 @@ export default {
     /*Traer cosas del state*/
     /*Traer cosas del state*/
     const dataUsers = computed(() => store.state.users);
-    /*Nueva compra*/
-    /*const item = ref({*/
-    /*user: "605b5387f853df1fceb9f862",*/
-    /*person: "605b768c7a4a01529e6dee5b",*/
-    /*typeProof: "1",*/
-    /*serieProof: "2",*/
-    /*numProof: "3",*/
-    /*tax: 12,*/
-    /*details: [*/
-        /*{*/
-            /*_id: "608dfbac8c58980015e24df0",*/
-            /*article: "sdfdskfls",*/
-            /*quantity: 0,*/
-            /*price: 0*/
-        /*}*/
-    /*]*/
-/*})*/
+    const item = ref({
+    name: "",
+    email: "",
+    password: "",
+    rol: "",
+})
     /*Llamar las acciones en el onMounted*/
     const getUsers = () => store.dispatch('getUser');
     //traemos los datos
@@ -99,7 +133,7 @@ export default {
       loading,
       dataUsers,
       token,
-      /*item*/
+      item
     };
   },
 };

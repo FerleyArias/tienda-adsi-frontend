@@ -1,17 +1,19 @@
 <template>
   <div>
     <form
-      @submit.prevent="addCategory(item)"
-      class="container mt-10 m-auto bg-blue-300 max-w-sm rounded-lg overflow-hidden"
-    >
+      @submit.prevent="addCategory(item)">
+      <h1>Información de las categorias</h1>
+      <br>
+      <h2>Nombre de la categoria</h2>
       <input
-        class="mb-2 focus:outline-none p-1"
         type="text"
         id="name"
         name="name"
         v-model="item.name"
         placeholder="Nombre"
       />
+      <br>
+      <h2>Descripción de las categorias</h2>
       <input
         class="mb-2 focus:outline-none p-1"
         type="text"
@@ -20,7 +22,7 @@
         v-model="item.description"
         placeholder="Descripcion"
       />
-
+      <br>
       <button
         type="submit"
         class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
