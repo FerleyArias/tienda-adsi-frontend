@@ -196,8 +196,6 @@ export default {
   setup() {
     /*Instanciamos el store*/
     const store = useStore();
-    /*traemos el token del state*/
-    const token = computed(() => store.state.token);
     /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
@@ -242,7 +240,6 @@ export default {
       error,
       loading,
       dataVentas,
-      token,
       item,
       article
     };

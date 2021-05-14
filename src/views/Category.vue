@@ -4,7 +4,7 @@
       <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
       </button>
       <form
-        class="relative z-20 mx-auto max-w-xs bg-white p-5 mt-10"
+        class="relative flex flex-col z-20 mx-auto max-w-xs bg-white p-5 mt-10"
         @submit.prevent="() => {
           if(modal.option === 1) {
             addCategory(item)
@@ -12,14 +12,13 @@
             modifyCategory(modal.id, item)
           }
         }">
-        <button @click="closeModal" class="absolute focus:outline-none top-2 right-2 text-gray-500" >
+        <button @click="closeModal" class="absolute focus:outline-none top-1 right-2 text-gray-500" >
           <font-awesome-icon
             icon="times"
           />
         </button>
-        <h1>Información de las categorias</h1>
-        <br>
-        <h2>Nombre</h2>
+        <h1 class="text-center mb-3">Información de las categorias</h1>
+        <label for="name">Nombre</label>
         <input
           class="mb-2 focus:outline-none p-1 border border-gray-500 rounded-md"
           type="text"
@@ -28,8 +27,7 @@
           v-model="item.name"
           placeholder="Nombre"
         />
-        <br>
-        <h2>Descripción</h2>
+        <label for="description">Descripción</label>
         <input
           class="mb-2 focus:outline-none p-1 border border-gray-500 rounded-md"
           type="text"
@@ -38,7 +36,6 @@
           v-model="item.description"
           placeholder="Descripcion"
         />
-        <br>
         <button
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
@@ -114,8 +111,6 @@ export default {
   setup() {
     /*Instanciamos el store*/
     const store = useStore();
-    /*traemos el token del state*/
-    const token = computed(() => store.state.token);
     /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
@@ -188,7 +183,6 @@ export default {
       modifyCategory,
       enableCategory,
       dataCategory,
-      token,
     };
   },
 };
