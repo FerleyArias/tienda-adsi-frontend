@@ -229,6 +229,14 @@ export default {
       })
     /*Llamar las acciones en el onMounted*/
     const getVentas = () => store.dispatch('getVenta');
+
+
+    /*Delete compra*/
+    const deleteCompra = item => store.dispatch('deleteVenta', item);
+    /*Activar compra*/
+    const enableCompra = item => store.dispatch('enableVenta', item);
+    /*Montamos las compras en el onMounted*/
+
     //traemos los datos
     onMounted(() => {
       if (!dataVentas.value.length) {
@@ -237,6 +245,8 @@ export default {
     });
 
     return {
+      deleteCompra,
+      enableCompra,
       error,
       loading,
       dataVentas,

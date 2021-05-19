@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="addCompra(item)">
-    <h1>Información de la compra</h1>
+      <h1>Información de la compra</h1>
       <h2>Usuario</h2>
       <input
         type="text"
@@ -10,7 +10,7 @@
         v-model="item.user"
         placeholder="User"
       />
-      <br>
+      <br />
       <h2>Persona - proveedor</h2>
       <input
         type="text"
@@ -19,7 +19,7 @@
         v-model="item.person"
         placeholder="Person"
       />
-      <br>
+      <br />
       <h2>tipo de comprobante</h2>
       <input
         type="text"
@@ -28,7 +28,7 @@
         v-model="item.typeProof"
         placeholder="Tipo de comprobante"
       />
-      <br>
+      <br />
       <h2>Serie comprobante</h2>
       <input
         type="text"
@@ -37,7 +37,7 @@
         v-model="item.serieProof"
         placeholder="Serie comprobante"
       />
-      <br>
+      <br />
       <h2>Número de comprobante</h2>
       <input
         type="text"
@@ -46,7 +46,7 @@
         v-model="item.numProf"
         placeholder="Número de comprobante"
       />
-      <br>
+      <br />
       <h2>Impuesto</h2>
       <input
         type="text"
@@ -55,18 +55,19 @@
         v-model="item.tax"
         placeholder="Impuesto"
       />
-      <br>
+      <br />
       <button
         type="submit"
-        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
-       GENERAR COMPRA 
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        GENERAR COMPRA
       </button>
     </form>
-    <br>
-    
+    <br />
+
     <h2>Añadir items</h2>
     <form @submit.prevent="addArticle(article)">
-      <br>
+      <br />
       <h2>Id del articulo</h2>
       <input
         type="text"
@@ -75,7 +76,7 @@
         v-model="article._id"
         placeholder="ID articulo"
       />
-      <br>
+      <br />
       <h2>Nombre del articulo</h2>
       <input
         type="text"
@@ -84,7 +85,7 @@
         v-model="article.name"
         placeholder="Nombre articulo"
       />
-      <br>
+      <br />
       <h2>Cantidad del articulo</h2>
       <input
         type="number"
@@ -92,19 +93,17 @@
         name="quantity"
         v-model="article.quantity"
       />
-      <br>
+      <br />
       <h2>Precio del articulo</h2>
-      <input
-        type="number"
-        id="price"
-        name="price"
-        v-model="article.price"
-      />
-      <br>
-      
+      <input type="number" id="price" name="price" v-model="article.price" />
+      <br />
+
       <button
         type="submit"
-        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">AÑADIR ITEM</button>
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        AÑADIR ITEM
+      </button>
     </form>
 
     <table class="border-collapse border border-black">
@@ -131,22 +130,22 @@
             {{ producto.person.name }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.typeProof}}
+            {{ producto.typeProof }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.serieProof}}
+            {{ producto.serieProof }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.numProof}}
+            {{ producto.numProof }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.createdAt}}
+            {{ producto.createdAt }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.tax}}
+            {{ producto.tax }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.total}}
+            {{ producto.total }}
           </td>
           <td class="border border-black p-2">
             {{ producto.state }}
@@ -193,33 +192,37 @@ export default {
     const dataCompras = computed(() => store.state.compras);
     /*Nueva compra*/
     const item = ref({
-    user: "",
-    person: "",
-    typeProof: "",
-    serieProof: "",
-    numProof: "",
-    tax: 0,
-    details: [
+      user: '',
+      person: '',
+      typeProof: '',
+      serieProof: '',
+      numProof: '',
+      tax: 0,
+      details: [
         {
-            _id: "",
-            article: "",
-            quantity: 0,
-            price: 0
-        }
-    ]
-})
+          _id: '',
+          article: '',
+          quantity: 0,
+          price: 0,
+        },
+      ],
+    });
     /*Añadir articulos a la lista de item*/
     const article = ref({
-        _id: "",
-        article: "",
-        quantity: 0,
-        price: 0
-      })
+      _id: '',
+      article: '',
+      quantity: 0,
+      price: 0,
+    });
 
-  /*Llamamos a get compra que está en actions*/
+    /*Llamamos a get compra que está en actions*/
     const getCompras = () => store.dispatch('getCompra');
 
-/*Montamos las compras en el onMounted*/
+    /*Delete compra*/
+    const deleteCompra = item => store.dispatch('deleteCompra', item);
+    /*Activar compra*/
+    const enableCompra = item => store.dispatch('enableCompra', item);
+    /*Montamos las compras en el onMounted*/
     onMounted(() => {
       if (!dataCompras.value.length) {
         getCompras();
@@ -227,6 +230,8 @@ export default {
     });
 
     return {
+      deleteCompra,
+      enableCompra,
       error,
       loading,
       dataCompras,

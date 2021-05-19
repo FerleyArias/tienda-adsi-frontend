@@ -3,7 +3,7 @@ import router from '@/router';
 // Las acciones nos sirven para las solicitudes, llaman a las mutaciones
 // Los commits llaman las mutaciones
 
-//<---------------- Autentificación ------------------------------> 
+//<---------------- Autentificación ------------------------------>
 export const login = async ({commit}, user) => {
   try {
     commit('setLoading');
@@ -179,7 +179,7 @@ export const modifyArticle = async ({commit, state}, {id, item}) => {
     await api.modifyArticle(id, item, state.token);
     const index = state.articles.findIndex(article => article._id === id);
     const updateArticles = state.articles;
-    const change = {...item}
+    const change = {...item};
     const category = await api.getCategoryId(change.category, state.token);
     change.category = {
       _id: category._id,
@@ -195,7 +195,7 @@ export const modifyArticle = async ({commit, state}, {id, item}) => {
 };
 
 //<------------------ COMPRAS ------------------>
-//Traer compras 
+//Traer compras
 export const getCompra = async ({commit, state}) => {
   try {
     commit('setLoading');
@@ -207,8 +207,38 @@ export const getCompra = async ({commit, state}) => {
   }
 };
 
+// Eliminar "desactivar" compra
+export const deleteCompra = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.deleteCompra(id, state.token);
+    const index = state.compras.shopping.findIndex(compra => compra._id === id);
+    let updatedCompras = state.compras;
+    updatedCompras.shopping[index].state = 0;
+    commit('setCompras', updatedCompras);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
+
+// activar compra
+export const enableCompra = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.enableCompra(id, state.token);
+    const index = state.compras.shopping.findIndex(compra => compra._id === id);
+    let updatedCompras = state.compras;
+    updatedCompras.shopping[index].state = 1;
+    commit('setCompras', updatedCompras);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
+
 //<----------------- VENTAS ------------------>
-//Traer ventas 
+//Traer ventas
 export const getVenta = async ({commit, state}) => {
   try {
     commit('setLoading');
@@ -220,8 +250,37 @@ export const getVenta = async ({commit, state}) => {
   }
 };
 
+// Eliminar "desactivar" ventas
+export const deleteVenta = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.deleteVenta(id, state.token);
+    const index = state.ventas.sale.findIndex(ventas => ventas._id === id);
+    let updatedVentas = state.ventas;
+    updatedVentas.sale[index].state = 0;
+    commit('setVentas', updatedVentas);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
+
+// Activar ventas
+export const enableVenta = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.enableVenta(id, state.token);
+    const index = state.ventas.sale.findIndex(ventas => ventas._id === id);
+    let updatedVentas = state.ventas;
+    updatedVentas.sale[index].state = 1;
+    commit('setVentas', updatedVentas);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
 //<----------------------------- PERSONAS ------------------>
-//Traer compras 
+//Traer compras
 export const getPerson = async ({commit, state}) => {
   try {
     commit('setLoading');
@@ -233,9 +292,40 @@ export const getPerson = async ({commit, state}) => {
   }
 };
 
+// Eliminar "desactivar" personas
+export const deletePerson = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.deletePerson(id, state.token);
+    const index = state.persons.person.findIndex(person => person._id === id);
+    //console.log(state.persons.person)
+    let updatedPersons = state.persons;
+    updatedPersons.person[index].state = 0;
+    commit('setPersons', updatedPersons);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
+
+// Activar personas
+export const enablePerson = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.enablePerson(id, state.token);
+    const index = state.persons.person.findIndex(person => person._id === id);
+    //console.log(state.persons.person)
+    let updatedPersons = state.persons;
+    updatedPersons.person[index].state = 1;
+    commit('setPersons', updatedPersons);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
 
 //<---------------- USUARIOS ------------------>
-//Traer usuarios 
+//Traer usuarios
 export const getUser = async ({commit, state}) => {
   try {
     commit('setLoading');
@@ -244,5 +334,35 @@ export const getUser = async ({commit, state}) => {
   } catch (error) {
     commit('setError', error);
     console.error(error);
+  }
+};
+
+//Eliminar usuario
+export const deleteUser = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.deleteUser(id, state.token);
+    const index = state.users.user.findIndex(user => user._id === id);
+    let updatedUsers = state.users;
+    updatedUsers.user[index].state = 0;
+    commit('setUsers', updatedUsers);
+  } catch (error) {
+    commit('serError', error);
+    console.log(error);
+  }
+};
+
+//Activar usuario
+export const enableUser = async ({commit, state}, id) => {
+  try {
+    commit('setLoading');
+    await api.enableUser(id, state.token);
+    const index = state.users.user.findIndex(user => user._id === id);
+    let updatedUsers = state.users;
+    updatedUsers.user[index].state = 1;
+    commit('setUsers', updatedUsers);
+  } catch (error) {
+    commit('serError', error);
+    console.log(error);
   }
 };

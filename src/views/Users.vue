@@ -75,19 +75,19 @@
               class="p-2 bg-red-500 rounded-md"
               type="button"
               value="X"
-              @click="deleteCompra(producto._id)"
+              @click="deleteUser(producto._id)"
             />
             <input
               class="p-2 bg-purple-500 rounded-md"
               type="button"
               value="A"
-              @click="enableCompra(producto._id)"
+              @click="enableUser(producto._id)"
             />
             <input
               class="p-2 bg-blue-500 rounded-md"
               type="button"
               value="M"
-              @click="modifyCompra(producto._id, item)"
+              @click="modifyUser(producto._id, item)"
             />
           </td>
         </tr>
@@ -119,6 +119,13 @@ export default {
 })
     /*Llamar las acciones en el onMounted*/
     const getUsers = () => store.dispatch('getUser');
+
+    /*Desactivar item*/
+    const deleteUser = (id) => store.dispatch('deleteUser', id);
+    /*Activar item*/
+    const enableUser = (id) => store.dispatch('enableUser', id);
+
+
     //traemos los datos
     onMounted(() => {
       if (!dataUsers.value.length) {
@@ -127,6 +134,8 @@ export default {
     });
 
     return {
+      deleteUser,
+      enableUser,
       error,
       loading,
       dataUsers,

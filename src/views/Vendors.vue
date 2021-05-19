@@ -166,6 +166,10 @@ export default {
     const dataPersons = computed(() => store.state.persons);
     /*Llamar las acciones en el onMounted*/
     const getPersons = () => store.dispatch('getPerson');
+  /*Delete person*/
+    const deletePerson = item => store.dispatch('deletePerson', item);
+  /*Activar compra*/
+    const enablePerson = item => store.dispatch('enablePerson', item);
     //traemos los datos
     onMounted(() => {
       if (!dataPersons.value.length) {
@@ -174,6 +178,8 @@ export default {
     });
 
     return {
+      deletePerson,
+      enablePerson,
       error,
       loading,
       dataPersons,

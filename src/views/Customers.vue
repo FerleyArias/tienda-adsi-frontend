@@ -64,7 +64,7 @@
         v-model="item.email"
         placeholder="Email de la persona"
       />
-      <br>
+      <br />
       <button
         type="submit"
         class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
@@ -90,28 +90,28 @@
       <tbody>
         <tr v-for="(producto, i) in dataPersons.person" :key="i">
           <td class="border border-black p-2">
-            {{ producto.name}}
+            {{ producto.name }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.typePerson}}
+            {{ producto.typePerson }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.document}}
+            {{ producto.document }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.idDocument}}
+            {{ producto.idDocument }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.address}}
+            {{ producto.address }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.phone}}
+            {{ producto.phone }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.email}}
+            {{ producto.email }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.state}}
+            {{ producto.state }}
           </td>
           <td class="border border-black p-2">
             <input
@@ -154,16 +154,22 @@ export default {
     const dataPersons = computed(() => store.state.persons);
     /*Agregamos el form para la nueva persona*/
     const item = ref({
-        typePerson: "",
-        name: "",
-        document: "",
-        idDocument: "",
-        address: "",
-        phone: "",
-        email: ""
-      })
+      typePerson: '',
+      name: '',
+      document: '',
+      idDocument: '',
+      address: '',
+      phone: '',
+      email: '',
+    });
     /*Llamar las acciones en el onMounted*/
     const getPersons = () => store.dispatch('getPerson');
+
+    /*Delete person*/
+    const deletePerson = item => store.dispatch('deletePerson', item);
+    /*Activar compra*/
+    const enablePerson = item => store.dispatch('enablePerson', item);
+
     //traemos los datos
     onMounted(() => {
       if (!dataPersons.value.length) {
@@ -172,10 +178,12 @@ export default {
     });
 
     return {
+      deletePerson,
+      enablePerson,
       error,
       loading,
       dataPersons,
-      item
+      item,
     };
   },
 };

@@ -157,8 +157,28 @@ export const getCompra = async token => {
   return compras;
 };
 
+//Desactivar "eliminar" compras
+export const deleteCompra = async (id, token) => {
+  await fetch(`${BASE_URL}shopping/disable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
+//activar compras
+export const enableCompra = async (id, token) => {
+  await fetch(`${BASE_URL}shopping/enable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
 //<---------- VENTAS --------------------_>
-//Traer ventas 
+//Traer ventas
 export const getVenta = async token => {
   const res = await fetch(`${BASE_URL}sale?value=`, {
     headers: {
@@ -167,6 +187,26 @@ export const getVenta = async token => {
   });
   const ventas = await res.json();
   return ventas;
+};
+
+//Desactivar "eliminar" ventas
+export const deleteVenta = async (id, token) => {
+  await fetch(`${BASE_URL}sale/disable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
+//activar ventas
+export const enableVenta = async (id, token) => {
+  await fetch(`${BASE_URL}sale/enable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
 };
 
 //<---------- PERSONAS ---------------------------------_>
@@ -181,6 +221,25 @@ export const getPerson = async token => {
   return personas;
 };
 
+//Desactivar "eliminar" personas
+export const deletePerson = async (id, token) => {
+  await fetch(`${BASE_URL}person/disable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
+
+//activar personas
+export const enablePerson = async (id, token) => {
+  await fetch(`${BASE_URL}person/enable/${id}`, {
+    method: 'PUT',
+    headers: {
+      token: token,
+    },
+  });
+};
 
 //<----------  USUARIOS -------------------_>
 //Traer usuarios
@@ -192,4 +251,24 @@ export const getUser = async token => {
   });
   const user = await res.json();
   return user;
+};
+
+//Desactivar usuario
+export const deleteUser = async (id, token) => {
+  await fetch(`${BASE_URL}user/disable/${id}`, {
+  method: 'PUT',
+    headers: {
+      token,
+    },
+  });
+};
+
+//Activar usuario
+export const enableUser = async (id, token) => {
+  await fetch(`${BASE_URL}user/enable/${id}`, {
+  method: 'PUT',
+    headers: {
+      token,
+    },
+  });
 };
