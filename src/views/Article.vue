@@ -11,6 +11,7 @@
           } else {
             modifyArticle(modal.id, item)
           }
+          closeModal()
         }">
         <button @click="closeModal" class="absolute focus:outline-none top-1 right-2 text-gray-500" >
           <font-awesome-icon
@@ -76,7 +77,7 @@
         <div class="flex flex-col">
           <label for="category">Category</label>
           <select
-            class="mb-2 focus:outline-none p-1 border border-gray-500 rounded-md"
+            class="bg-white mb-2 focus:outline-none p-1 border border-gray-500 rounded-md"
             id="category"
             name="category"
             v-model="item.category"
@@ -223,8 +224,7 @@ export default {
     /*Activar un item*/
     const enableArticle = id => store.dispatch('enableArticle', id);
     /*Modificar un item*/
-    const modifyArticle = (id, item) =>
-      store.dispatch('modifyArticle', {id, item});
+    const modifyArticle = (id, item) => store.dispatch('modifyArticle', {id, item});
     /*Llamar las acciones en el onMounted*/
     const getArticle = () => store.dispatch('getArticle');
     const getCategory = () => store.dispatch('getCategories');

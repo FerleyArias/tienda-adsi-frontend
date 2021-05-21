@@ -212,9 +212,9 @@ export const deleteCompra = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.deleteCompra(id, state.token);
-    const index = state.compras.shopping.findIndex(compra => compra._id === id);
+    const index = state.compras.findIndex(compra => compra._id === id);
     let updatedCompras = state.compras;
-    updatedCompras.shopping[index].state = 0;
+    updatedCompras[index].state = 0;
     commit('setCompras', updatedCompras);
   } catch (error) {
     console.error(error);
@@ -227,9 +227,9 @@ export const enableCompra = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.enableCompra(id, state.token);
-    const index = state.compras.shopping.findIndex(compra => compra._id === id);
+    const index = state.compras.findIndex(compra => compra._id === id);
     let updatedCompras = state.compras;
-    updatedCompras.shopping[index].state = 1;
+    updatedCompras[index].state = 1;
     commit('setCompras', updatedCompras);
   } catch (error) {
     console.error(error);
@@ -255,9 +255,9 @@ export const deleteVenta = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.deleteVenta(id, state.token);
-    const index = state.ventas.sale.findIndex(ventas => ventas._id === id);
+    const index = state.ventas.findIndex(ventas => ventas._id === id);
     let updatedVentas = state.ventas;
-    updatedVentas.sale[index].state = 0;
+    updatedVentas[index].state = 0;
     commit('setVentas', updatedVentas);
   } catch (error) {
     console.error(error);
@@ -270,9 +270,9 @@ export const enableVenta = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.enableVenta(id, state.token);
-    const index = state.ventas.sale.findIndex(ventas => ventas._id === id);
+    const index = state.ventas.findIndex(ventas => ventas._id === id);
     let updatedVentas = state.ventas;
-    updatedVentas.sale[index].state = 1;
+    updatedVentas[index].state = 1;
     commit('setVentas', updatedVentas);
   } catch (error) {
     console.error(error);
@@ -297,10 +297,10 @@ export const deletePerson = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.deletePerson(id, state.token);
-    const index = state.persons.person.findIndex(person => person._id === id);
+    const index = state.persons.findIndex(person => person._id === id);
     //console.log(state.persons.person)
     let updatedPersons = state.persons;
-    updatedPersons.person[index].state = 0;
+    updatedPersons[index].state = 0;
     commit('setPersons', updatedPersons);
   } catch (error) {
     console.error(error);
@@ -313,10 +313,9 @@ export const enablePerson = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.enablePerson(id, state.token);
-    const index = state.persons.person.findIndex(person => person._id === id);
-    //console.log(state.persons.person)
+    const index = state.persons.findIndex(person => person._id === id);
     let updatedPersons = state.persons;
-    updatedPersons.person[index].state = 1;
+    updatedPersons[index].state = 1;
     commit('setPersons', updatedPersons);
   } catch (error) {
     console.error(error);
@@ -342,9 +341,9 @@ export const deleteUser = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.deleteUser(id, state.token);
-    const index = state.users.user.findIndex(user => user._id === id);
+    const index = state.users.findIndex(user => user._id === id);
     let updatedUsers = state.users;
-    updatedUsers.user[index].state = 0;
+    updatedUsers[index].state = 0;
     commit('setUsers', updatedUsers);
   } catch (error) {
     commit('serError', error);
@@ -357,9 +356,9 @@ export const enableUser = async ({commit, state}, id) => {
   try {
     commit('setLoading');
     await api.enableUser(id, state.token);
-    const index = state.users.user.findIndex(user => user._id === id);
+    const index = state.users.findIndex(user => user._id === id);
     let updatedUsers = state.users;
-    updatedUsers.user[index].state = 1;
+    updatedUsers[index].state = 1;
     commit('setUsers', updatedUsers);
   } catch (error) {
     commit('serError', error);

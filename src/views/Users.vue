@@ -57,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, i) in dataUsers.user" :key="i">
+        <tr v-for="(producto, i) in dataUsers" :key="i">
           <td class="border border-black p-2">
             {{ producto.name }}
           </td>

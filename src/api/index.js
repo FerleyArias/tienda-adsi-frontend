@@ -154,7 +154,7 @@ export const getCompra = async token => {
     },
   });
   const compras = await res.json();
-  return compras;
+  return compras.shopping;
 };
 
 //Desactivar "eliminar" compras
@@ -186,7 +186,7 @@ export const getVenta = async token => {
     },
   });
   const ventas = await res.json();
-  return ventas;
+  return ventas.sale;
 };
 
 //Desactivar "eliminar" ventas
@@ -218,7 +218,7 @@ export const getPerson = async token => {
     },
   });
   const personas = await res.json();
-  return personas;
+  return personas.person;
 };
 
 //Desactivar "eliminar" personas
