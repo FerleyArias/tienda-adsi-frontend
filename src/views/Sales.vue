@@ -134,7 +134,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, i) in dataVentas.sale" :key="i">
+        <tr v-for="(producto, i) in dataVentas" :key="i">
           <td class="border border-black p-2">
             {{ producto.user.name }}
           </td>

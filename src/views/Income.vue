@@ -122,7 +122,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, i) in dataCompras.shopping" :key="i">
+        <tr v-for="(producto, i) in dataCompras" :key="i">
           <td class="border border-black p-2">
             {{ producto.user.name }}
           </td>
