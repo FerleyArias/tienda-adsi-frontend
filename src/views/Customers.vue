@@ -153,7 +153,7 @@
               </button>
               <button
                 class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
-                @click="modify(producto._id, item)"
+                @click="modify(producto)"
               >
                 M
               </button>
@@ -207,16 +207,16 @@ export default {
       item.value.email = ''
     }
 
-    const modify = (article)=> {
+    const modify = person => {
       modal.value.active = true,
       modal.value.option = 2
-      modal.value.id = article._id
-      item.value.name = article.name
-      item.value.document = article.document
-      item.value.idDocument = article.idDocument
-      item.value.address = article.address
-      item.value.phone = article.phone
-      item.value.email = article.email
+      modal.value.id = person._id
+      item.value.name = person.name
+      item.value.document = person.document
+      item.value.idDocument = person.idDocument
+      item.value.address = person.address
+      item.value.phone = person.phone
+      item.value.email = person.email
     }
 
     const closeModal = () => {
