@@ -165,15 +165,14 @@ import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Article',
   setup() {
-    /*Instanciamos el store*/
     const store = useStore();
-    /*Manejo del asincronismo*/
+
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Traer cosas del state*/
+
     const dataArticle = computed(() => store.state.articles);
     const dataCategory = computed(() => store.state.categories);
-    /*Nuevo item articulos*/
+
     const modal = ref({
       active: false,
       option: null,
@@ -217,18 +216,14 @@ export default {
       modal.value.id = null
     }
 
-    /*Añadir articulos*/
     const addArticle = item => store.dispatch('addArticle', item);
-    /*Desactivar "eliminar" un item*/
-    const deleteArticle = id => store.dispatch('deleteArticle', id);
-    /*Activar un item*/
-    const enableArticle = id => store.dispatch('enableArticle', id);
-    /*Modificar un item*/
     const modifyArticle = (id, item) => store.dispatch('modifyArticle', {id, item});
-    /*Llamar las acciones en el onMounted*/
+    const deleteArticle = id => store.dispatch('deleteArticle', id);
+    const enableArticle = id => store.dispatch('enableArticle', id);
+
     const getArticle = () => store.dispatch('getArticle');
     const getCategory = () => store.dispatch('getCategories');
-    //traemos los datos
+
     onMounted(() => {
       if (!dataArticle.value.length) {
         getArticle();

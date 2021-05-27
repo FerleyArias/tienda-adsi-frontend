@@ -1,21 +1,27 @@
 <template>
   <div>
     <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-      <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
-      </button>
+      <button
+        @click="closeModal"
+        class="absolute bg-black w-full h-full opacity-50"
+      ></button>
       <form
         class="relative flex flex-col z-20 mx-auto max-w-xs bg-white p-5 mt-10"
-        @submit.prevent="() => {
-          if(modal.option === 1) {
-            addCategory(item)
-          } else {
-            modifyCategory(modal.id, item)
+        @submit.prevent="
+          () => {
+            if (modal.option === 1) {
+              addCategory(item);
+            } else {
+              modifyCategory(modal.id, item);
+            }
           }
-        }">
-        <button @click="closeModal" class="absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        "
+      >
+        <button
+          @click="closeModal"
+          class="absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </button>
         <h1 class="text-center mb-3">Información de las categorias</h1>
         <label for="name">Nombre</label>
@@ -40,12 +46,15 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-         {{ modal.option === 1 ? "añadir" : "actualizar" }}
+          {{ modal.option === 1 ? 'añadir' : 'actualizar' }}
         </button>
       </form>
     </div>
     <div class="mx-auto w-max">
-      <button @click="add" class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3">
+      <button
+        @click="add"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
+      >
         Añadir
       </button>
       <table class="border-collapse border border-black">
@@ -81,7 +90,7 @@
                 class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
                 @click="deleteCategory(producto._id)"
               >
-              Eliminar
+                Eliminar
               </button>
               <button
                 class="p-2 focus:outline-none text-white bg-purple-500 rounded-md mr-2"
@@ -109,61 +118,53 @@ import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Category',
   setup() {
-    /*Instanciamos el store*/
     const store = useStore();
-    /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Traer cosas del state*/
     const dataCategory = computed(() => store.state.categories);
-    /*nuevo item a categorias*/
+
     const modal = ref({
       active: false,
       option: null,
-      id: null
-    })
+      id: null,
+    });
     const item = ref({
       name: '',
       description: '',
     });
 
-    const add = ()=> {
-      modal.value.active = true,
-      modal.value.option = 1
-      item.value.name = ''
-      item.value.description = ''
-    }
+    const add = () => {
+      (modal.value.active = true), (modal.value.option = 1);
+      item.value.name = '';
+      item.value.description = '';
+    };
 
-    const modify = (category)=> {
-      modal.value.active = true,
-      modal.value.option = 2
-      modal.value.id = category._id
-      item.value.name = category.name
-      item.value.description = category.description
-    }
+    const modify = category => {
+      (modal.value.active = true), (modal.value.option = 2);
+      modal.value.id = category._id;
+      item.value.name = category.name;
+      item.value.description = category.description;
+    };
 
     const closeModal = () => {
-      modal.value.active = false,
-      modal.value.option = null,
-      modal.value.id = null
-    }
-    /*Añadir item a categorias*/
-    const addCategory = item => {
-      closeModal()
-      store.dispatch('addCategory', item)
+      (modal.value.active = false),
+        (modal.value.option = null),
+        (modal.value.id = null);
     };
-    /*Desactivar "eliminar" un item*/
+
+    const addCategory = item => {
+      closeModal();
+      store.dispatch('addCategory', item);
+    };
+
     const deleteCategory = id => store.dispatch('deleteCategory', id);
-    /*Activar un item*/
     const enableCategory = id => store.dispatch('enableCategory', id);
-    /*Modificar un item*/
     const modifyCategory = (id, item) => {
-      closeModal()
-      store.dispatch('modifyCategory', {id, item})
-    }
-    /*Llamar las acciones en el onMounted*/
+      closeModal();
+      store.dispatch('modifyCategory', {id, item});
+    };
+
     const getCategory = () => store.dispatch('getCategories');
-    //traemos los datos
     onMounted(() => {
       if (!dataCategory.value.length) {
         getCategory();

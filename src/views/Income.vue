@@ -182,15 +182,11 @@ import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Income',
   setup() {
-    /*Instanciamos el store*/
     const store = useStore();
-    /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Traer cosas del state*/
-    /*Traer cosas del state*/
     const dataCompras = computed(() => store.state.compras);
-    /*Nueva compra*/
+
     const item = ref({
       user: '',
       person: '',
@@ -198,16 +194,9 @@ export default {
       serieProof: '',
       numProof: '',
       tax: 0,
-      details: [
-        {
-          _id: '',
-          article: '',
-          quantity: 0,
-          price: 0,
-        },
-      ],
+      details: [],
     });
-    /*Añadir articulos a la lista de item*/
+
     const article = ref({
       _id: '',
       article: '',
@@ -215,14 +204,15 @@ export default {
       price: 0,
     });
 
-    /*Llamamos a get compra que está en actions*/
-    const getCompras = () => store.dispatch('getCompra');
+    const addArticle = article => {
+      item.value.details.push(article);
+    };
 
-    /*Delete compra*/
+    const getCompras = () => store.dispatch('getCompra');
+    const addCompra = item => store.dispatch('addCompra', item);
     const deleteCompra = item => store.dispatch('deleteCompra', item);
-    /*Activar compra*/
     const enableCompra = item => store.dispatch('enableCompra', item);
-    /*Montamos las compras en el onMounted*/
+
     onMounted(() => {
       if (!dataCompras.value.length) {
         getCompras();
@@ -230,8 +220,10 @@ export default {
     });
 
     return {
+      addArticle,
       deleteCompra,
       enableCompra,
+      addCompra,
       error,
       loading,
       dataCompras,

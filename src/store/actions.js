@@ -207,6 +207,26 @@ export const getCompra = async ({commit, state}) => {
   }
 };
 
+//Añadir compra 
+//export const addCompra = async ({commit, state}, item) => {
+  //try {
+    //commit('setLoading');
+    //const newItem = await api.addCompra(item, state.token);
+    //const compras = await api.getCompraId(newItem.category, state.token);
+    //newItem.category = {
+      //_id: category._id,
+      //name: category.name,
+      //description: category.description,
+    //};
+    //let updatedArticles = state.articles;
+    //updatedArticles.unshift(newItem);
+    //commit('setArticles', updatedArticles);
+  //} catch (error) {
+    //console.error(error);
+    //commit('setError', error);
+  //}
+//};
+
 // Eliminar "desactivar" compra
 export const deleteCompra = async ({commit, state}, id) => {
   try {

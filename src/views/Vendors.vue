@@ -1,22 +1,28 @@
 <template>
   <div>
-     <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-      <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
-      </button>
+    <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
+      <button
+        @click="closeModal"
+        class="absolute bg-black w-full h-full opacity-50"
+      ></button>
       <form
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
-        @submit.prevent="() => {
-          if(modal.option === 1) {
-            addPerson(item)
-          } else {
-            modifyPerson(modal.id, item)
+        @submit.prevent="
+          () => {
+            if (modal.option === 1) {
+              addPerson(item);
+            } else {
+              modifyPerson(modal.id, item);
+            }
+            closeModal();
           }
-          closeModal()
-        }">
-        <button @click="closeModal" class="absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        "
+      >
+        <button
+          @click="closeModal"
+          class="absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </button>
         <h1 class="text-center mb-3 col-span-2">Información del proveedor</h1>
         <div class="col-span-2 flex flex-col">
@@ -89,12 +95,15 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-         {{ modal.option === 1 ? "añadir" : "actualizar" }}
+          {{ modal.option === 1 ? 'añadir' : 'actualizar' }}
         </button>
       </form>
     </div>
     <div class="mx-auto w-max">
-      <button @click="add" class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3">
+      <button
+        @click="add"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
+      >
         Añadir
       </button>
       <table class="border-collapse border border-black">
@@ -138,19 +147,19 @@
                 class="p-2 bg-red-500 rounded-md"
                 @click="deletePerson(producto._id)"
               >
-              X
+                X
               </button>
               <button
                 class="p-2 bg-purple-500 rounded-md"
                 @click="enablePerson(producto._id)"
               >
-              A
+                A
               </button>
               <button
                 class="p-2 bg-blue-500 rounded-md"
-                @click="modify(producto)"
+                @click="modifyPersona(producto._id, item)"
               >
-              M
+                M
               </button>
             </td>
           </tr>
@@ -166,83 +175,73 @@ import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Income',
   setup() {
-    /*Instanciamos el store*/
     const store = useStore();
-    /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Agregamos el form para la nueva persona*/
+
     const modal = ref({
       active: false,
       option: null,
-      id: null
-    })
+      id: null,
+    });
 
     const item = ref({
-      typePerson: "Proveedor",
-      name: "",
-      document: "",
-      idDocument: "",
-      address: "",
-      phone: "",
-      email: ""
-    })
+      typePerson: 'Proveedor',
+      name: '',
+      document: '',
+      idDocument: '',
+      address: '',
+      phone: '',
+      email: '',
+    });
 
-    const add = ()=> {
-      modal.value.active = true,
-      modal.value.option = 1
-      item.value.name = ''
-      item.value.document = ''
-      item.value.idDocument = ''
-      item.value.address = ''
-      item.value.phone = ''
-      item.value.email = ''
-    }
+    const add = () => {
+      (modal.value.active = true), (modal.value.option = 1);
+      item.value.name = '';
+      item.value.document = '';
+      item.value.idDocument = '';
+      item.value.address = '';
+      item.value.phone = '';
+      item.value.email = '';
+    };
 
-    const modify = (article)=> {
-      modal.value.active = true,
-      modal.value.option = 2
-      modal.value.id = article._id
-      item.value.name = article.name
-      item.value.document = article.document
-      item.value.idDocument = article.idDocument
-      item.value.address = article.address
-      item.value.phone = article.phone
-      item.value.email = article.email
-    }
+    const modify = article => {
+      (modal.value.active = true), (modal.value.option = 2);
+      modal.value.id = article._id;
+      item.value.name = article.name;
+      item.value.document = article.document;
+      item.value.idDocument = article.idDocument;
+      item.value.address = article.address;
+      item.value.phone = article.phone;
+      item.value.email = article.email;
+    };
 
     const closeModal = () => {
-      modal.value.active = false,
-      modal.value.option = null,
-      modal.value.id = null
-    }
-    /*Traer cosas del state*/
+      (modal.value.active = false),
+        (modal.value.option = null),
+        (modal.value.id = null);
+    };
     const dataPersons = computed(() => store.state.persons);
     const dataVendors = computed(() => store.getters.getAllVendors);
-    /*Llamar las acciones en el onMounted*/
+
+
     const getPerson = () => store.dispatch('getPerson');
-    /*Delete person*/
-    const deletePerson = item => store.dispatch('deletePerson', item);
-    /*Activar compra*/
-    const enablePerson = item => store.dispatch('enablePerson', item);
-    /*Modificar un item*/
-    const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
-    /*Añadir Persona*/
     const addPerson = item => store.dispatch('addPerson', item);
-    //traemos los datos
+    const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
+    const deletePerson = item => store.dispatch('deletePerson', item);
+    const enablePerson = item => store.dispatch('enablePerson', item);
+
     onMounted(() => {
       if (!dataPersons.value.length) {
         getPerson();
       }
     });
 
-     
-
     return {
+      addPerson,
       deletePerson,
       enablePerson,
       modifyPerson,
-      addPerson,
       error,
       loading,
       dataPersons,
@@ -251,7 +250,7 @@ export default {
       closeModal,
       modal,
       add,
-      modify
+      modify,
     };
   },
 };

@@ -224,18 +224,13 @@ export default {
       modal.value.option = null,
       modal.value.id = null
     }
-    /*Llamar las acciones en el onMounted*/
-    const getPerson = () => store.dispatch('getPerson');
 
-    /*Delete person*/
-    const deletePerson = item => store.dispatch('deletePerson', item);
-    /*Activar compra*/
-    const enablePerson = item => store.dispatch('enablePerson', item);
-    /*Modificar un item*/
+    const addPerson = item => store.dispatch('addArticle', item);
     const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
-    /*Añadir Persona*/
-    const addPerson = item => store.dispatch('addPerson', item);
-    //traemos los datos
+    const getPerson = () => store.dispatch('getPerson');
+    const deletePerson = item => store.dispatch('deletePerson', item);
+    const enablePerson = item => store.dispatch('enablePerson', item);
+
     onMounted(() => {
       if (!dataPersons.value.length) {
         getPerson();

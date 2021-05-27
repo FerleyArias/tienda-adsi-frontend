@@ -1,8 +1,7 @@
-
 <template>
-<div>
+  <div>
     <form @submit.prevent="addUser(item)">
-    <h1>Información del usuario</h1>
+      <h1>Información del usuario</h1>
       <h2>Nombre usuario</h2>
       <input
         type="text"
@@ -11,7 +10,7 @@
         v-model="item.name"
         placeholder="Nombre de usuario"
       />
-      <br>
+      <br />
       <h2>Email usuario</h2>
       <input
         type="email"
@@ -20,7 +19,7 @@
         v-model="item.email"
         placeholder="Email@gmail.com"
       />
-      <br>
+      <br />
       <h2>Contraseña</h2>
       <input
         type="password"
@@ -29,7 +28,7 @@
         v-model="item.typeProof"
         placeholder="Contraseña"
       />
-      <br>
+      <br />
       <h2>rol del usuario</h2>
       <input
         type="text"
@@ -38,11 +37,12 @@
         v-model="item.rol"
         placeholder="Rol usuario"
       />
-      <br>
+      <br />
       <button
         type="submit"
-        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm">
-     Crear 
+        class=" text-white font-bold bg-blue-600 p-2 mt-3 w-min rounded-sm"
+      >
+        Crear
       </button>
     </form>
 
@@ -62,13 +62,13 @@
             {{ producto.name }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.email}}
+            {{ producto.email }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.rol}}
+            {{ producto.rol }}
           </td>
           <td class="border border-black p-2">
-            {{ producto.state}}
+            {{ producto.state }}
           </td>
           <td class="border border-black p-2">
             <input
@@ -93,8 +93,7 @@
         </tr>
       </tbody>
     </table>
-
-</div>
+  </div>
 </template>
 
 <script>
@@ -103,30 +102,23 @@ import {computed, onMounted, ref} from 'vue';
 export default {
   name: 'Users',
   setup() {
-    /*Instanciamos el store*/
     const store = useStore();
-    /*Manejo del asincronismo*/
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
-    /*Traer cosas del state*/
-    /*Traer cosas del state*/
     const dataUsers = computed(() => store.state.users);
     const item = ref({
-    name: "",
-    email: "",
-    password: "",
-    rol: "",
-})
-    /*Llamar las acciones en el onMounted*/
+      name: '',
+      email: '',
+      password: '',
+      rol: '',
+    });
+
     const getUsers = () => store.dispatch('getUser');
+    const addUser = item => store.dispatch('addUser', item);
+    const modifyUser = (id, item) => store.dispatch('modifyUser', {id, item});
+    const deleteUser = id => store.dispatch('deleteUser', id);
+    const enableUser = id => store.dispatch('enableUser', id);
 
-    /*Desactivar item*/
-    const deleteUser = (id) => store.dispatch('deleteUser', id);
-    /*Activar item*/
-    const enableUser = (id) => store.dispatch('enableUser', id);
-
-
-    //traemos los datos
     onMounted(() => {
       if (!dataUsers.value.length) {
         getUsers();
@@ -134,12 +126,14 @@ export default {
     });
 
     return {
+      addUser,
+      modifyUser,
       deleteUser,
       enableUser,
       error,
       loading,
       dataUsers,
-      item
+      item,
     };
   },
 };
