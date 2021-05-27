@@ -144,20 +144,20 @@
             </td>
             <td class="border border-black p-2">
               <button
-                class="p-2 bg-red-500 rounded-md"
+                class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
                 @click="deletePerson(producto._id)"
               >
                 X
               </button>
               <button
-                class="p-2 bg-purple-500 rounded-md"
+                class="p-2 focus:outline-none text-white bg-purple-500 rounded-md mr-2"
                 @click="enablePerson(producto._id)"
               >
                 A
               </button>
               <button
-                class="p-2 bg-blue-500 rounded-md"
-                @click="modifyPersona(producto._id, item)"
+                class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
+                @click="modify(producto._id, item)"
               >
                 M
               </button>
