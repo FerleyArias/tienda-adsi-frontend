@@ -222,7 +222,7 @@ export default {
         (modal.value.id = null);
     };
     const dataPersons = computed(() => store.state.persons);
-    const dataVendors = computed(() => store.getters.getAllVendors);
+    const dataVendors = computed(() => store.getters.allVendors);
 
 
     const getPerson = () => store.dispatch('getPerson');

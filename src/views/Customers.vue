@@ -178,7 +178,7 @@ export default {
     const loading = computed(() => store.state.loading);
     /*Traer cosas del state*/
     const dataPersons = computed(() => store.state.persons);
-    const dataCustomers = computed(() => store.getters.getAllCustomers)
+    const dataCustomers = computed(() => store.getters.allCustomers)
     /*Agregamos el form para la nueva persona*/
     const modal = ref({
       active: false,
