@@ -250,7 +250,7 @@ export const getUser = async token => {
     },
   });
   const user = await res.json();
-  return user;
+  return user.user;
 };
 
 //Desactivar usuario
