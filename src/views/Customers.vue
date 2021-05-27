@@ -225,7 +225,7 @@ export default {
       modal.value.id = null
     }
 
-    const addPerson = item => store.dispatch('addArticle', item);
+    const addPerson = item => store.dispatch('addPerson', item);
     const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
     const getPerson = () => store.dispatch('getPerson');
     const deletePerson = item => store.dispatch('deletePerson', item);

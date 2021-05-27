@@ -224,7 +224,6 @@ export default {
     const dataPersons = computed(() => store.state.persons);
     const dataVendors = computed(() => store.getters.getAllVendors);
 
-
     const getPerson = () => store.dispatch('getPerson');
     const addPerson = item => store.dispatch('addPerson', item);
     const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});

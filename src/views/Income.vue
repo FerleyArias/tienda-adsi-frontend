@@ -163,12 +163,6 @@
               value="A"
               @click="enableCompra(producto._id)"
             />
-            <input
-              class="p-2 bg-blue-500 rounded-md"
-              type="button"
-              value="M"
-              @click="modifyCompra(producto._id, item)"
-            />
           </td>
         </tr>
       </tbody>

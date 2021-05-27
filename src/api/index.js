@@ -158,16 +158,16 @@ export const getCompra = async token => {
 };
 
 //Traer compras By Id
-//export const getCompraId = async (id, token) => {
-//const res = await fetch(`${BASE_URL}shopping/${id}`, {
-//method: 'GET',
-//headers: {
-//token,
-//},
-//});
-//const compras = await res.json();
-//return compras;
-//};
+export const getCompraId = async (id, token) => {
+  const res = await fetch(`${BASE_URL}shopping/${id}`, {
+    method: 'GET',
+    headers: {
+      token,
+    },
+  });
+  const compras = await res.json();
+  return compras;
+};
 
 //Añadir compras
 export const addCompra = async (item, token) => {
@@ -215,6 +215,32 @@ export const getVenta = async token => {
   return ventas.sale;
 };
 
+//Traer ventas By Id
+export const getVentaId = async (id, token) => {
+  const res = await fetch(`${BASE_URL}sale/${id}`, {
+    method: 'GET',
+    headers: {
+      token,
+    },
+  });
+  const compras = await res.json();
+  return compras;
+};
+
+//Añadir ventas 
+export const addVenta = async (item, token) => {
+  const res = await fetch(`${BASE_URL}sale/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+  const newItem = await res.json();
+  return newItem;
+};
+
 //Desactivar "eliminar" ventas
 export const deleteVenta = async (id, token) => {
   await fetch(`${BASE_URL}sale/disable/${id}`, {
@@ -247,20 +273,45 @@ export const getPerson = async token => {
   return personas.person;
 };
 
-//Añadir personas
-//export const addCategory = async (item, token) => {
-//const res = await fetch(`${BASE_URL}category/`, {
-//method: 'POST',
-//headers: {
-//'Content-Type': 'application/json',
-//token: token,
-//},
-//body: JSON.stringify(item),
-//});
+//Traer personas By Id
+export const getPersonId = async (id, token) => {
+  const res = await fetch(`${BASE_URL}person/${id}`, {
+    method: 'GET',
+    headers: {
+      token,
+    },
+  });
+  const compras = await res.json();
+  return compras;
+};
 
-//const newItem = await res.json();
-//return newItem;
-//};
+//Modificar personas
+export const modifyPerson = async (id, item, token) => {
+  const modifyPerson = await fetch(`${BASE_URL}person/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+
+  const newPerson = await modifyPerson.json();
+  return newPerson;
+};
+//Añadir personas
+export const addPerson = async (item, token) => {
+  const res = await fetch(`${BASE_URL}person/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+  const newItem = await res.json();
+  return newItem;
+};
 
 //Desactivar "eliminar" personas
 export const deletePerson = async (id, token) => {
@@ -293,6 +344,47 @@ export const getUser = async token => {
   const user = await res.json();
   return user.user;
 };
+
+//Traer usuarios By Id
+export const getUserId = async (id, token) => {
+  const res = await fetch(`${BASE_URL}user/${id}`, {
+    method: 'GET',
+    headers: {
+      token,
+    },
+  });
+  const compras = await res.json();
+  return compras;
+};
+
+//Modificar personas
+export const modifyUser = async (id, item, token) => {
+  const modifyPerson = await fetch(`${BASE_URL}user/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+
+  const newPerson = await modifyPerson.json();
+  return newPerson;
+};
+//Añadir personas
+export const addUser = async (item, token) => {
+  const res = await fetch(`${BASE_URL}user/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+    body: JSON.stringify(item),
+  });
+  const newItem = await res.json();
+  return newItem;
+};
+
 
 //Desactivar usuario
 export const deleteUser = async (id, token) => {
