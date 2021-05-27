@@ -1,4 +1,5 @@
 <template>
+{{item}}
   <div>
     <form @submit.prevent="addCompra(item)">
       <h1>Información de la compra</h1>
@@ -73,7 +74,7 @@
         type="text"
         id="article"
         name="article"
-        v-model="article.name"
+        v-model="article.article"
         placeholder="Nombre articulo"
       />
       <br />
@@ -175,15 +176,15 @@ export default {
     const item = ref({
       user: '6079bde5488271001556f61d',
       person: '605b77a8b1692a568abe22a7',
-      typeProof: '0001',
-      serieProof: '0001',
-      numProof: '0001',
+      typeProof: 'Fisdficao',
+      serieProof: '0safa01',
+      numProof: '00aa1',
       details: [],
     });
 
     const article = ref({
       _id: '60afb9985aa8370015020be0',
-      name: 'Hp Pro Book',
+      article: 'Hola',
       quantity: 2,
       price: 1000,
       discount: 0

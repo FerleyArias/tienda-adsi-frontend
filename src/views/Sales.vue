@@ -1,5 +1,4 @@
 <template>
-{{item}}
   <div>
     <form @submit.prevent="addCompra(item)">
       <h1>Información de la compra</h1>
