@@ -25,7 +25,7 @@ export default {
   setup() {
     const store = useStore()
     const user = ref({
-      email: 'edwin@gmail.com',
+      email: 'administrador@gmail.com',
       password: '123456'
     })
     const error = computed(()=> store.state.error)
