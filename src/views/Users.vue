@@ -7,7 +7,7 @@
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
         @submit.prevent="() => {
           if(modal.option === 1) {
-            addArticle(item)
+            addUser(item)
           } else {
             modifyArticle(modal.id, item)
           }

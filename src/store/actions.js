@@ -207,25 +207,19 @@ export const getCompra = async ({commit, state}) => {
   }
 };
 
-//Añadir compra 
-//export const addCompra = async ({commit, state}, item) => {
-  //try {
-    //commit('setLoading');
-    //const newItem = await api.addCompra(item, state.token);
-    //const compras = await api.getCompraId(newItem.category, state.token);
-    //newItem.category = {
-      //_id: category._id,
-      //name: category.name,
-      //description: category.description,
-    //};
-    //let updatedArticles = state.articles;
-    //updatedArticles.unshift(newItem);
-    //commit('setArticles', updatedArticles);
-  //} catch (error) {
-    //console.error(error);
-    //commit('setError', error);
-  //}
-//};
+//Añadir compra
+export const addCompra = async ({commit, state}, item) => {
+  try {
+    commit('setLoading');
+    const newCompra = await api.addCompra(item, state.token);
+    let updatedCompra = state.compras;
+    updatedCompra.unshift(newCompra);
+    commit('setCompras', updatedCompra);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
 
 // Eliminar "desactivar" compra
 export const deleteCompra = async ({commit, state}, id) => {
@@ -267,6 +261,23 @@ export const getVenta = async ({commit, state}) => {
   } catch (error) {
     commit('setError', error);
     console.error(error);
+  }
+};
+
+//Añadir venta
+export const addVenta = async ({commit, state}, item) => {
+  try {
+    commit('setLoading');
+    let newVenta = await api.addVenta(item, state.token);
+    //const user = await api.getUserById(newVenta.user, state.token);
+    //const person = await api.getPersonById(newVenta.person, state.token);
+
+    let updatedVenta = state.ventas;
+    updatedVenta.unshift(newVenta);
+    commit('setVentas', updatedVenta);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
   }
 };
 
@@ -328,6 +339,20 @@ export const deletePerson = async ({commit, state}, id) => {
   }
 };
 
+//Añadir personas
+export const addPerson = async ({commit, state}, item) => {
+  try {
+    commit('setLoading');
+    const newPerson = await api.addPerson(item, state.token);
+    let updatedPerson = state.persons;
+    updatedPerson.unshift(newPerson.person);
+    commit('setPersons', updatedPerson);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
+  }
+};
+
 // Activar personas
 export const enablePerson = async ({commit, state}, id) => {
   try {
@@ -353,6 +378,21 @@ export const getUser = async ({commit, state}) => {
   } catch (error) {
     commit('setError', error);
     console.error(error);
+  }
+};
+
+//Añadir usuarios
+export const addUser = async ({commit, state}, item) => {
+  try {
+    commit('setLoading');
+    const newUser = await api.addUser(item, state.token);
+    console.log(newUser);
+    let updatedUser = state.users;
+    updatedUser.unshift(newUser.user);
+    commit('setUsers', updatedUser);
+  } catch (error) {
+    console.error(error);
+    commit('setError', error);
   }
 };
 

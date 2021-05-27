@@ -43,17 +43,8 @@
         type="text"
         id="numProf"
         name="numProf"
-        v-model="item.numProf"
+        v-model="item.numProof"
         placeholder="Número de comprobante"
-      />
-      <br />
-      <h2>Impuesto</h2>
-      <input
-        type="text"
-        id="tax"
-        name="tax"
-        v-model="item.tax"
-        placeholder="Impuesto"
       />
       <br />
       <button
@@ -182,20 +173,20 @@ export default {
     const dataCompras = computed(() => store.state.compras);
 
     const item = ref({
-      user: '',
-      person: '',
-      typeProof: '',
-      serieProof: '',
-      numProof: '',
-      tax: 0,
+      user: '6079bde5488271001556f61d',
+      person: '605b77a8b1692a568abe22a7',
+      typeProof: '0001',
+      serieProof: '0001',
+      numProof: '0001',
       details: [],
     });
 
     const article = ref({
-      _id: '',
-      article: '',
-      quantity: 0,
-      price: 0,
+      _id: '60afb9985aa8370015020be0',
+      name: 'Hp Pro Book',
+      quantity: 2,
+      price: 1000,
+      discount: 0
     });
 
     const addArticle = article => {

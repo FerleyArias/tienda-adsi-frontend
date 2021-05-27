@@ -109,7 +109,6 @@ export const addArticle = async (item, token) => {
     body: JSON.stringify(item),
   });
   const newItem = await res.json();
-  console.log(newItem);
   return newItem.article;
 };
 
@@ -169,18 +168,19 @@ export const getCompraId = async (id, token) => {
   return compras;
 };
 
-//Añadir compras
+//Añadir compras 
 export const addCompra = async (item, token) => {
   const res = await fetch(`${BASE_URL}shopping/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token,
     },
     body: JSON.stringify(item),
   });
   const newItem = await res.json();
-  return newItem;
+  console.log(newItem);
+  return newItem.shopping;
 };
 
 //Desactivar "eliminar" compras
@@ -227,18 +227,18 @@ export const getVentaId = async (id, token) => {
   return compras;
 };
 
-//Añadir ventas 
+//Añadir ventas
 export const addVenta = async (item, token) => {
   const res = await fetch(`${BASE_URL}sale/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token,
     },
     body: JSON.stringify(item),
   });
   const newItem = await res.json();
-  return newItem;
+  return newItem.sale;
 };
 
 //Desactivar "eliminar" ventas
@@ -274,15 +274,15 @@ export const getPerson = async token => {
 };
 
 //Traer personas By Id
-export const getPersonId = async (id, token) => {
+export const getPersonById = async (id, token) => {
   const res = await fetch(`${BASE_URL}person/${id}`, {
     method: 'GET',
     headers: {
       token,
     },
   });
-  const compras = await res.json();
-  return compras;
+  const person = await res.json();
+  return person;
 };
 
 //Modificar personas
@@ -305,7 +305,7 @@ export const addPerson = async (item, token) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token,
     },
     body: JSON.stringify(item),
   });
@@ -346,7 +346,7 @@ export const getUser = async token => {
 };
 
 //Traer usuarios By Id
-export const getUserId = async (id, token) => {
+export const getUserById = async (id, token) => {
   const res = await fetch(`${BASE_URL}user/${id}`, {
     method: 'GET',
     headers: {
@@ -357,7 +357,7 @@ export const getUserId = async (id, token) => {
   return compras;
 };
 
-//Modificar personas
+//Modificar usuarios 
 export const modifyUser = async (id, item, token) => {
   const modifyPerson = await fetch(`${BASE_URL}user/${id}`, {
     method: 'PUT',
@@ -371,20 +371,20 @@ export const modifyUser = async (id, item, token) => {
   const newPerson = await modifyPerson.json();
   return newPerson;
 };
-//Añadir personas
+
+//Añadir usuario
 export const addUser = async (item, token) => {
   const res = await fetch(`${BASE_URL}user/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token,
     },
     body: JSON.stringify(item),
   });
   const newItem = await res.json();
   return newItem;
 };
-
 
 //Desactivar usuario
 export const deleteUser = async (id, token) => {
