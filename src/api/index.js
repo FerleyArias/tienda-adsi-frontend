@@ -51,21 +51,6 @@ export const addCategory = async (item, token) => {
   return newItem;
 };
 
-//Modificar categoria
-//export const modifyCategory = async (id, item, token) => {
-//const modifyCategory = await fetch(`${BASE_URL}category/${id}`, {
-//method: 'PUT',
-//headers: {
-//'Content-Type': 'application/json',
-//token: token,
-//},
-//body: JSON.stringify(item),
-//});
-
-//const newCategory = await modifyCategory.json();
-//return newCategory;
-//};
-
 //Desactivar "eliminar" categoria
 export const deleteCategory = async (id, token) => {
   await fetch(`${BASE_URL}category/disable/${id}`, {
@@ -196,20 +181,6 @@ export const addCompra = async (item, token) => {
   });
   const newItem = await res.json();
   return newItem;
-};
-
-//Modificar compras
-export const modifyCompra = async (id, item, token) => {
-  const modifyCategory = await fetch(`${BASE_URL}category/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      token: token,
-    },
-    body: JSON.stringify(item),
-  });
-  const newCategory = await modifyCategory.json();
-  return newCategory;
 };
 
 //Desactivar "eliminar" compras
