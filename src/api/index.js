@@ -179,7 +179,6 @@ export const addCompra = async (item, token) => {
     body: JSON.stringify(item),
   });
   const newItem = await res.json();
-  console.log(newItem);
   return newItem.shopping;
 };
 

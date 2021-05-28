@@ -217,15 +217,15 @@ export default {
     const item = ref({
       user: userLogin.value._id,
       person: '605b77a8b1692a568abe22a7',
-      typeProof: '0001',
-      serieProof: '0001',
-      numProof: '0001',
+      typeProof: 'Fisdficao',
+      serieProof: '0safa01',
+      numProof: '00aa1',
       details: [],
     });
 
     const article = ref({
       _id: '60afb9985aa8370015020be0',
-      name: 'Hp Pro Book',
+      article: 'Hola',
       quantity: 2,
       price: 1000,
       discount: 0
