@@ -311,7 +311,7 @@ export const enableVenta = async ({commit, state}, id) => {
   }
 };
 //<----------------------------- PERSONAS ------------------>
-//Traer compras
+//Traer
 export const getPerson = async ({commit, state}) => {
   try {
     commit('setLoading');
@@ -353,11 +353,26 @@ export const addPerson = async ({commit, state}, item) => {
   }
 };
 
+//Modificar categorias
+export const modifyPerson = async ({commit, state}, {id, item}) => {
+  try {
+    commit('setLoading');
+    await api.modifyPerson(id, item, state.token);
+    const index = state.persons.findIndex(persons => persons._id === id);
+    const updatePersons = state.persons;
+    updatePersons[index] = {...state.persons[index], ...item};
+    commit('setPersons', updatePersons);
+  } catch (error) {
+    console.error(error);
+    commit('setError');
+  }
+};
+
 // Activar personas
 export const enablePerson = async ({commit, state}, id) => {
   try {
     commit('setLoading');
-    await api.enablePerson(id, state.token);
+    await api.modifyPerson(id, state.token);
     const index = state.persons.findIndex(person => person._id === id);
     let updatedPersons = state.persons;
     updatedPersons[index].state = 1;
@@ -393,6 +408,21 @@ export const addUser = async ({commit, state}, item) => {
   } catch (error) {
     console.error(error);
     commit('setError', error);
+  }
+};
+
+//Modificar user
+export const modifyUser = async ({commit, state}, {id, item}) => {
+  try {
+    commit('setLoading');
+    await api.modifyUser(id, item, state.token);
+    const index = state.users.findIndex(user => user._id === id);
+    const updateUsers = state.users;
+    updateUsers[index] = {...state.users[index], ...item};
+    commit('setUsers', updateUsers);
+  } catch (error) {
+    console.error(error);
+    commit('setError');
   }
 };
 

@@ -9,7 +9,7 @@
           if(modal.option === 1) {
             addUser(item)
           } else {
-            modifyArticle(modal.id, item)
+            modifyUser(modal.id, item)
           }
           closeModal()
         }">
