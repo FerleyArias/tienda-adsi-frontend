@@ -5,6 +5,7 @@ import mutations from './mutations';
 
 const state = {
   token: null,
+  userLogin: null,
   error: null,
   loading: false,
   categories: [],

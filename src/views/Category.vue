@@ -17,12 +17,12 @@
           }
         "
       >
-        <button
+        <span
           @click="closeModal"
-          class="absolute focus:outline-none top-1 right-2 text-gray-500"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
         >
           <font-awesome-icon icon="times" />
-        </button>
+        </span>
         <h1 class="text-center mb-3">Información de las categorias</h1>
         <label for="name">Nombre</label>
         <input
@@ -50,64 +50,60 @@
         </button>
       </form>
     </div>
-    <div class="mx-auto w-max">
+    <div class="mx-auto max-w-6xl">
       <button
         @click="add"
         class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
       >
         Añadir
       </button>
-      <table class="border-collapse border border-black">
-        <thead>
-          <tr class="bg-blue-500 text-white">
-            <th class="border border-black p-2">Nombre</th>
-            <th class="border border-black p-2">Descripcion</th>
-            <th class="border border-black p-2">Estado</th>
-            <th class="border border-black p-2">Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(producto, i) in dataCategory" :key="i">
-            <td class="border border-black p-2">
-              {{ producto.name }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.description }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.state }}
-            </td>
-            <!-- <td>{{producto.costo}}</td>
-              <td>{{producto.cantidad}}</td>
-              <td>{{producto.proveedor}}</td> -->
-
-            <!-- <td><input class="btn btn-info" type="button" value="add" @click="producto.cantidad++"></td>
-              <td><input :disabled="producto.cantidad < 1" class="btn btn-success" type="button" value="sell"
-                  @click="producto.cantidad--"></td>
-              <td>{{producto.precio - producto.costo}}</td>-->
-            <td class="border border-black p-2">
-              <button
-                class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
-                @click="deleteCategory(producto._id)"
-              >
-                Eliminar
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-purple-500 rounded-md mr-2"
-                @click="enableCategory(producto._id)"
-              >
-                Activar
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
-                @click="modify(producto)"
-              >
-                Modificar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-auto">
+        <table class="border-collapse border border-black w-full">
+          <thead>
+            <tr class="bg-blue-500 text-white">
+              <th class="border border-black p-2">Nombre</th>
+              <th class="border border-black p-2">Descripcion</th>
+              <th class="border border-black p-2">Estado</th>
+              <th class="border border-black p-2">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(producto, i) in dataCategory" :key="i">
+              <td class="border border-black p-2">
+                {{ producto.name }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.description }}
+              </td>
+              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
+                {{ producto.state ? "Activado" : "Inactivo"}}
+              </td>
+              <td class="border border-black p-2">
+                <button
+                  v-if="producto.state"
+                  class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
+                  @click="deleteCategory(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
+                </button>
+                <button 
+                  v-else
+                  class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
+                  @click="enableCategory(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['fas', 'check']" />
+                </button>
+                <button
+                  class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
+                  @click="modify(producto)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'edit']" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

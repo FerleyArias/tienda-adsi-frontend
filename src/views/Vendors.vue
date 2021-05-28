@@ -18,12 +18,12 @@
           }
         "
       >
-        <button
+        <span
           @click="closeModal"
-          class="absolute focus:outline-none top-1 right-2 text-gray-500"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
         >
           <font-awesome-icon icon="times" />
-        </button>
+        </span>
         <h1 class="text-center mb-3 col-span-2">Información del proveedor</h1>
         <div class="col-span-2 flex flex-col">
           <label for="name">Nombre</label>
@@ -99,72 +99,76 @@
         </button>
       </form>
     </div>
-    <div class="mx-auto w-max">
+    <div class="mx-auto max-w-6xl">
       <button
         @click="add"
         class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
       >
         Añadir
       </button>
-      <table class="border-collapse border border-black">
-        <thead>
-          <tr class="bg-blue-500 text-white">
-            <th class="border border-black">Nombre</th>
-            <th class="border border-black">Tipo documento</th>
-            <th class="border border-black">núm documento</th>
-            <th class="border border-black">Dirección</th>
-            <th class="border border-black">Teléfono</th>
-            <th class="border border-black">Email</th>
-            <th class="border border-black">Estado</th>
-            <th class="border border-black">Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(producto, i) in dataVendors" :key="i">
-            <td class="border border-black p-2">
-              {{ producto.name }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.document }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.idDocument }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.address }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.phone }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.email }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.state }}
-            </td>
-            <td class="border border-black p-2">
-              <button
-                class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
-                @click="deletePerson(producto._id)"
-              >
-                X
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-purple-500 rounded-md mr-2"
-                @click="enablePerson(producto._id)"
-              >
-                A
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
-                @click="modify(producto)"
-              >
-                M
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-auto">
+        <table class="border-collapse border border-black w-full">
+          <thead>
+            <tr class="bg-blue-500 text-white">
+              <th class="border border-black p-2">Nombre</th>
+              <th class="border border-black p-2">Tipo documento</th>
+              <th class="border border-black p-2">núm documento</th>
+              <th class="border border-black p-2">Dirección</th>
+              <th class="border border-black p-2">Teléfono</th>
+              <th class="border border-black p-2">Email</th>
+              <th class="border border-black p-2">Estado</th>
+              <th class="border border-black p-2">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(producto, i) in dataVendors" :key="i">
+              <td class="border border-black p-2">
+                {{ producto.name }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.document }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.idDocument }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.address }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.phone }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.email }}
+              </td>
+              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
+                {{ producto.state ? "Activado" : "Inactivo"}}
+              </td>
+              <td class="border border-black p-2">
+                <button
+                  v-if="producto.state"
+                  class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
+                  @click="deletePerson(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
+                </button>
+                <button 
+                  v-else
+                  class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
+                  @click="enablePerson(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['fas', 'check']" />
+                </button>
+                <button
+                  class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
+                  @click="modify(producto)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'edit']" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

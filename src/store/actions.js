@@ -15,8 +15,9 @@ export const login = async ({commit}, user) => {
     }
 
     commit('setToken', userDB.token);
-
+    commit('setUserLogin', userDB.user)
     localStorage.setItem('token', userDB.token);
+    localStorage.setItem('userLogin', userDB.user);
 
     router.push('/');
   } catch (error) {
@@ -28,6 +29,8 @@ export const login = async ({commit}, user) => {
 export const logout = ({commit}) => {
   localStorage.removeItem('token');
   commit('setToken', null);
+  localStorage.removeItem('userLogin');
+  commit('setUserLogin', null);
   router.push('/login');
 };
 
@@ -35,6 +38,9 @@ export const logout = ({commit}) => {
 export const getToken = ({commit}) => {
   if (localStorage.getItem('token')) {
     commit('setToken', localStorage.getItem('token'));
+  }
+  if (localStorage.getItem('userLogin')) {
+    commit('setUserLogin', localStorage.getItem('userLogin'));
   }
 };
 

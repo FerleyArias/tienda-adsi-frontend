@@ -4,6 +4,10 @@ export default {
     state.token = payload;
     state.loading = false;
   },
+  setUserLogin(state, payload) {
+    state.userLogin = payload;
+    state.loading = false;
+  },
   setError(state, payload) {
     state.error = payload;
     state.loading = false;

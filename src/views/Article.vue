@@ -13,11 +13,11 @@
           }
           closeModal()
         }">
-        <button @click="closeModal" class="absolute focus:outline-none top-1 right-2 text-gray-500" >
+        <span @click="closeModal" class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500" >
           <font-awesome-icon
             icon="times"
           />
-        </button>
+        </span>
         <h1 class="text-center mb-3 col-span-2">Información de los articulos</h1>
         <div class="col-span-2 flex flex-col">
           <label for="name">Nombre</label>
@@ -93,69 +93,73 @@
         </button>
       </form>
     </div>
-    <div class="mx-auto w-max">
+    <div class="mx-auto max-w-6xl">
       <button @click="add" class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3">
         Añadir
       </button>
-      <table class="border-collapse border border-black">
-        <thead>
-          <tr class="bg-blue-500 text-white">
-            <th class="border border-black">Codigo</th>
-            <th class="border border-black">Nombre</th>
-            <th class="border border-black">Categoria</th>
-            <th class="border border-black">Stock</th>
-            <th class="border border-black">Precio Venta</th>
-            <th class="border border-black">Descripcion</th>
-            <th class="border border-black">Estado</th>
-            <th class="border border-black">Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(producto, i) in dataArticle" :key="i">
-            <td class="border border-black p-2">
-              {{ producto.code }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.name }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.category.name }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.stock }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.price }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.description }}
-            </td>
-            <td class="border border-black p-2">
-              {{ producto.state }}
-            </td>
-            <td class="border border-black p-2">
-              <button
-                class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
-                @click="deleteArticle(producto._id)"
-              >
-              Eliminar
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-purple-500 rounded-md mr-2"
-                @click="enableArticle(producto._id)"
-              >
-                Activar
-              </button>
-              <button
-                class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
-                @click="modify(producto)"
-              >
-                Modificar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-auto">
+        <table class="border-collapse border border-black w-full">
+          <thead>
+            <tr class="bg-blue-500 text-white">
+              <th class="border border-black p-2">Codigo</th>
+              <th class="border border-black p-2">Nombre</th>
+              <th class="border border-black p-2">Categoria</th>
+              <th class="border border-black p-2">Stock</th>
+              <th class="border border-black p-2">Precio Venta</th>
+              <th class="border border-black p-2">Descripcion</th>
+              <th class="border border-black p-2">Estado</th>
+              <th class="border border-black p-2">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(producto, i) in dataArticle" :key="i">
+              <td class="border border-black p-2">
+                {{ producto.code }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.name }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.category.name }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.stock }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.price }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.description }}
+              </td>
+              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
+                {{ producto.state ? "Activado" : "Inactivo"}}
+              </td>
+              <td class="border border-black p-2">
+                <button
+                  v-if="producto.state"
+                  class="p-2 focus:outline-none text-white bg-red-500 rounded-md mr-2"
+                  @click="deleteArticle(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
+                </button>
+                <button 
+                  v-else
+                  class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
+                  @click="enableArticle(producto._id)"
+                >
+                  <font-awesome-icon class="" :icon="['fas', 'check']" />
+                </button>
+                <button
+                  class="p-2 focus:outline-none text-white bg-blue-500 rounded-md"
+                  @click="modify(producto)"
+                >
+                  <font-awesome-icon class="" :icon="['far', 'edit']" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen relative overflow-hidden">
     <my-header/>
-    <div class="container my-20 h-full">
+    <main class="my-20 h-full w-full">
       <router-view/>
-    </div>
+    </main>
     <my-footer/>
   </div>
 </template>
