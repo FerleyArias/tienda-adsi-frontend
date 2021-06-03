@@ -1,5 +1,4 @@
 <template>
-  {{ rol }} 
   <header
     class="flex z-10 fixed w-full justify-between bg-blue-700 text-white p-5"
   >
