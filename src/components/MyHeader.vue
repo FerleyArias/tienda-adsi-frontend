@@ -1,4 +1,5 @@
 <template>
+  {{ rol }} 
   <header
     class="flex z-10 fixed w-full justify-between bg-blue-700 text-white p-5"
   >
@@ -7,7 +8,7 @@
         <font-awesome-icon icon="bars" />
       </button>
       <nav
-        :class="{visibleMenu: visibleBurger}"
+        :class="{ visibleMenu: visibleBurger }"
         class=" flex flex-col py-2 text-black menu left-0 bottom-0 flex h-full fixed bg-white"
       >
         <router-link to="/" class="p-3 bg-gray-200 w-full h-12">
@@ -15,6 +16,7 @@
           <span class="ml-3">Home</span>
         </router-link>
         <button
+          v-if="rol == 'administrador' || rol == 'almacenista'"
           @click="
             () => {
               handleSubMenus(0);
@@ -25,11 +27,11 @@
           <span>Almacén</span>
           <font-awesome-icon
             class="text-gray-400 duration-200"
-            :class="{activeSubMenu: subMenus[0]}"
+            :class="{ activeSubMenu: subMenus[0] }"
             icon="chevron-down"
           />
         </button>
-        <div :class="{visibleSubMenu: subMenus[0]}" class="subMenu">
+        <div v-if="rol == 'administrador' || rol == 'almacenista'" :class="{ visibleSubMenu: subMenus[0] }" class="subMenu">
           <router-link to="/category" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store" />
             <span class="ml-3">Categorías</span>
@@ -40,6 +42,7 @@
           </router-link>
         </div>
         <button
+          v-if="rol == 'administrador' || rol == 'almacenista'"
           @click="
             () => {
               handleSubMenus(1);
@@ -50,11 +53,11 @@
           <span>Compras</span>
           <font-awesome-icon
             class="text-gray-400 duration-200"
-            :class="{activeSubMenu: subMenus[1]}"
+            :class="{ activeSubMenu: subMenus[1] }"
             icon="chevron-down"
           />
         </button>
-        <div :class="{visibleSubMenu: subMenus[1]}" class="subMenu">
+        <div v-if="rol == 'administrador' || rol == 'almacenista'" :class="{ visibleSubMenu: subMenus[1] }" class="subMenu">
           <router-link to="/income" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store" />
             <span class="ml-3">Ingresos</span>
@@ -65,6 +68,7 @@
           </router-link>
         </div>
         <button
+          v-if="rol == 'administrador' || rol == 'vendedor'"
           @click="
             () => {
               handleSubMenus(2);
@@ -75,11 +79,11 @@
           <span>Ventas</span>
           <font-awesome-icon
             class="text-gray-400 duration-200"
-            :class="{activeSubMenu: subMenus[2]}"
+            :class="{ activeSubMenu: subMenus[2] }"
             icon="chevron-down"
           />
         </button>
-        <div :class="{visibleSubMenu: subMenus[2]}" class="subMenu">
+        <div v-if="rol == 'administrador' || rol == 'vendedor'" :class="{ visibleSubMenu: subMenus[2] }" class="subMenu">
           <router-link to="/sales" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store" />
             <span class="ml-3">Ventas</span>
@@ -90,6 +94,7 @@
           </router-link>
         </div>
         <button
+          v-if="rol == 'administrador'"
           @click="
             () => {
               handleSubMenus(3);
@@ -100,11 +105,11 @@
           <span>Accesos</span>
           <font-awesome-icon
             class="text-gray-400 duration-200"
-            :class="{activeSubMenu: subMenus[3]}"
+            :class="{ activeSubMenu: subMenus[3] }"
             icon="chevron-down"
           />
         </button>
-        <div :class="{visibleSubMenu__single: subMenus[3]}" class="subMenu">
+        <div v-if="rol == 'administrador'" :class="{ visibleSubMenu__single: subMenus[3] }" class="subMenu">
           <router-link to="/users" class="block p-3 w-full h-12">
             <font-awesome-icon class="text-xl text-gray-400" icon="store" />
             <span class="ml-3">Usuarios</span>
@@ -120,12 +125,12 @@
 </template>
 
 <script>
-import {ref, watch} from 'vue';
-import {useRoute} from 'vue-router';
-import {useStore} from 'vuex';
+import { ref, watch, computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
-  name: 'MyHeader',
+  name: "MyHeader",
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -135,7 +140,7 @@ export default {
     const handleBurger = () => {
       visibleBurger.value = !visibleBurger.value;
     };
-    const handleSubMenus = index => {
+    const handleSubMenus = (index) => {
       for (let i = 0; i < subMenus.value.length; i++) {
         if (i != index) {
           subMenus.value[i] = false;
@@ -143,17 +148,27 @@ export default {
       }
       subMenus.value[index] = !subMenus.value[index];
     };
-    const logout = () => store.dispatch('logout');
+    const logout = () => store.dispatch("logout");
     watch(route, () => {
       visibleBurger.value = false;
-      if (route.path === '/login') {
+      if (route.path === "/login") {
         visible.value = false;
         visibleBurger.value = false;
       } else {
         visible.value = true;
       }
     });
+
+    const rol = computed(() => store.state.rol);
+    const getRol = () => store.dispatch('getRol');
+
+    onMounted(() => {
+        getRol()
+    });
+
     return {
+      getRol,
+      rol,
       visible,
       logout,
       visibleBurger,

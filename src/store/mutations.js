@@ -40,4 +40,7 @@ export default {
     state.users= payload;
     state.loading = false;
   },
+  setRol(state, payload) {
+      state.rol = payload;
+  }
 };

@@ -26,6 +26,7 @@ const routes = [
     component: Category,
     meta: {
       requireAuth: true,
+      almacenista: true,
     },
   },
   {
@@ -34,7 +35,8 @@ const routes = [
     component: Article,
     meta: {
       requireAuth: true,
-    },
+      almacenista: true,
+    },  
   },
   {
     path: '/income',
@@ -42,6 +44,7 @@ const routes = [
     component: Income,
     meta: {
       requireAuth: true,
+      almacenista: true,
     },
   },
   {
@@ -50,6 +53,7 @@ const routes = [
     component: Vendors,
     meta: {
       requireAuth: true,
+      almacenista: true,
     },
   },
   {
@@ -58,6 +62,7 @@ const routes = [
     component: Sales,
     meta: {
       requireAuth: true,
+      vendedor: true,
     },
   },
   {
@@ -66,6 +71,7 @@ const routes = [
     component: Customers,
     meta: {
       requireAuth: true,
+      vendedor: true,
     },
   },
   {
@@ -94,9 +100,14 @@ router.beforeEach((to, from, next) => {
   const login = to.matched.some(item => item.name === 'login');
   // Si la ruta tiene dentro una key llamada meta y su value es true validará si existe un token, si existe, puede entrar a la ruta
   const protected_route = to.matched.some(item => item.meta.requireAuth);
+  const vendedor = to.matched.some(item => !item.meta.vendedor);
+//   const almacenista = to.matched.some(item => item.meta.almacenista);
+
   if (protected_route && !store.state.token) {
     next({name: 'login'});
   } else if (login && store.state.token) {
+    next({name: 'home'});
+  } else if (vendedor && (store.state.userLogin.rol == 'vendedor')) {
     next({name: 'home'});
   } else {
     next();

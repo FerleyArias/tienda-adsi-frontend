@@ -18,19 +18,33 @@ export const login = async ({commit}, user) => {
     commit('setUserLogin', userDB.user)
     localStorage.setItem('token', userDB.token);
     localStorage.setItem('userLogin', userDB.user);
+    localStorage.setItem('rol', userDB.user.rol);
 
+    getRol({commit});
+    
     router.push('/');
   } catch (error) {
     console.error(error);
     commit('setError', error);
   }
 };
+
+// Validar rol
+export const getRol = ({commit}) => {
+    const rol = localStorage.getItem('rol')
+    if (rol) {
+        commit('setRol', rol);  
+    }
+}
+
 //cerrar sesión y remover el token
 export const logout = ({commit}) => {
   localStorage.removeItem('token');
   commit('setToken', null);
   localStorage.removeItem('userLogin');
   commit('setUserLogin', null);
+  localStorage.removeItem('rol');
+  commit('setRol', null);
   router.push('/login');
 };
 

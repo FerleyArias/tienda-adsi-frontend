@@ -300,6 +300,7 @@ export default {
       dataVentas,
       item,
       article,
+      dataArticle,
     };
   },
 };

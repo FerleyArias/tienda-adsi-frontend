@@ -356,19 +356,19 @@ export const getUserById = async (id, token) => {
   return compras;
 };
 
-//Modificar usuarios 
+//Modificar personas
 export const modifyUser = async (id, item, token) => {
-  const modifyPerson = await fetch(`${BASE_URL}user/${id}`, {
+  const modifyUser = await fetch(`${BASE_URL}user/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      token: token,
+      token
     },
     body: JSON.stringify(item),
   });
 
-  const newPerson = await modifyPerson.json();
-  return newPerson;
+  const newUser = await modifyUser.json();
+  return newUser;
 };
 
 //Añadir usuario

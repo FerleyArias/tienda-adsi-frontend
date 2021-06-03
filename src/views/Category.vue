@@ -46,7 +46,7 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-          {{ modal.option === 1 ? 'añadir' : 'actualizar' }}
+          {{ modal.option === 1 ? "añadir" : "actualizar" }}
         </button>
       </form>
     </div>
@@ -75,8 +75,11 @@
               <td class="border border-black p-2">
                 {{ producto.description }}
               </td>
-              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-                {{ producto.state ? "Activado" : "Inactivo"}}
+              <td
+                :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+                class="border border-black p-2"
+              >
+                {{ producto.state ? "Activado" : "Inactivo" }}
               </td>
               <td class="border border-black p-2">
                 <button
@@ -86,7 +89,7 @@
                 >
                   <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
                 </button>
-                <button 
+                <button
                   v-else
                   class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                   @click="enableCategory(producto._id)"
@@ -108,11 +111,11 @@
   </div>
 </template>
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
 
 export default {
-  name: 'Category',
+  name: "Category",
   setup() {
     const store = useStore();
     const error = computed(() => store.state.error);
@@ -125,17 +128,17 @@ export default {
       id: null,
     });
     const item = ref({
-      name: '',
-      description: '',
+      name: "",
+      description: "",
     });
 
     const add = () => {
       (modal.value.active = true), (modal.value.option = 1);
-      item.value.name = '';
-      item.value.description = '';
+      item.value.name = "";
+      item.value.description = "";
     };
 
-    const modify = category => {
+    const modify = (category) => {
       (modal.value.active = true), (modal.value.option = 2);
       modal.value.id = category._id;
       item.value.name = category.name;
@@ -148,19 +151,19 @@ export default {
         (modal.value.id = null);
     };
 
-    const addCategory = item => {
+    const addCategory = (item) => {
       closeModal();
-      store.dispatch('addCategory', item);
+      store.dispatch("addCategory", item);
     };
 
-    const deleteCategory = id => store.dispatch('deleteCategory', id);
-    const enableCategory = id => store.dispatch('enableCategory', id);
+    const deleteCategory = (id) => store.dispatch("deleteCategory", id);
+    const enableCategory = (id) => store.dispatch("enableCategory", id);
     const modifyCategory = (id, item) => {
       closeModal();
-      store.dispatch('modifyCategory', {id, item});
+      store.dispatch("modifyCategory", { id, item });
     };
 
-    const getCategory = () => store.dispatch('getCategories');
+    const getCategory = () => store.dispatch("getCategories");
     onMounted(() => {
       if (!dataCategory.value.length) {
         getCategory();
