@@ -1,17 +1,23 @@
 <template>
   <div v-show="modals[0]" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-    <button @click="closeModal(0)" class="absolute bg-black w-full h-full opacity-50">
-    </button>
+    <button
+      @click="closeModal(0)"
+      class="absolute bg-black w-full h-full opacity-50"
+    ></button>
     <form
       class="grid grid-cols-3 gap-x-3 relative z-20 mx-auto max-w-5xl bg-white p-5 mt-10 "
-      @submit.prevent="() => {
-        addCompra(item)
-        closeModal(0)
-      }">
-      <span @click="closeModal(0)" class="absolute cursor-pointer focus:outline-none top-1 right-2 text-gray-500" >
-        <font-awesome-icon
-          icon="times"
-        />
+      @submit.prevent="
+        () => {
+          addCompra(item);
+          closeModal(0);
+        }
+      "
+    >
+      <span
+        @click="closeModal(0)"
+        class="absolute cursor-pointer focus:outline-none top-1 right-2 text-gray-500"
+      >
+        <font-awesome-icon icon="times" />
       </span>
       <h1 class="text-center mb-3 col-span-3">Información del proveedor</h1>
       <div class="flex flex-col">
@@ -55,18 +61,20 @@
           name="vendor"
           v-model="item.person"
         >
-          <option v-for="(vendor, i) in dataVendors" :key="i" :value="vendor._id">{{vendor.name}}</option>
+          <option
+            v-for="(vendor, i) in dataVendors"
+            :key="i"
+            :value="vendor._id"
+            >{{ vendor.name }}</option
+          >
         </select>
       </div>
       <div class="flex items-center">
-        <span        
-          class="text-2xl h-7 text-green-700"
-          @click="add(1)"
-        >
+        <span class="text-2xl h-7 text-green-700" @click="add(1)">
           <font-awesome-icon class="" :icon="['fas', 'plus-circle']" />
         </span>
       </div>
-      
+
       <div class="flex flex-col">
         <button
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
@@ -82,16 +90,22 @@
       ></button>
       <form
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
-        @submit.prevent="() => {
-          addArticle()
-          closeModal(1)
-        }">
-        <span @click="closeModal(1)" class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        @submit.prevent="
+          () => {
+            addArticle();
+            closeModal(1);
+          }
+        "
+      >
+        <span
+          @click="closeModal(1)"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </span>
-        <h1 class="text-center mb-3 col-span-2">Información de los articulos</h1>
+        <h1 class="text-center mb-3 col-span-2">
+          Información de los articulos
+        </h1>
         <div class="flex flex-col">
           <label for="article">article</label>
           <select
@@ -100,7 +114,12 @@
             name="article"
             v-model="article._id"
           >
-            <option v-for="(article, i) in dataArticle" :key="i" :value="article._id">{{article.name}}</option>
+            <option
+              v-for="(article, i) in dataArticle"
+              :key="i"
+              :value="article._id"
+              >{{ article.name }}</option
+            >
           </select>
         </div>
         <div class="flex flex-col">
@@ -130,6 +149,13 @@
       class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
     >
       Añadir
+    </button>
+    <button
+      type="submit"
+      class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+      @click="generarPDF(columns)"
+    >
+      Generar PDF
     </button>
     <div class="overflow-auto">
       <table class="border-collapse border border-black">
@@ -173,8 +199,11 @@
             <td class="border border-black p-2">
               {{ producto.total }}
             </td>
-            <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-              {{ producto.state ? "Activado" : "Inactivo"}}
+            <td
+              :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+              class="border border-black p-2"
+            >
+              {{ producto.state ? "Activado" : "Inactivo" }}
             </td>
             <td class="border border-black p-2">
               <button
@@ -184,7 +213,7 @@
               >
                 <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
               </button>
-              <button 
+              <button
                 v-else
                 class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                 @click="enableCompra(producto._id)"
@@ -199,11 +228,13 @@
   </div>
 </template>
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
-  name: 'Income',
+  name: "Income",
   setup() {
     const store = useStore();
     const error = computed(() => store.state.error);
@@ -216,61 +247,103 @@ export default {
 
     const item = ref({
       user: userLogin.value._id,
-      person: '605b77a8b1692a568abe22a7',
-      typeProof: 'Fisdficao',
-      serieProof: '0safa01',
-      numProof: '00aa1',
+      person: "605b77a8b1692a568abe22a7",
+      typeProof: "Fisdficao",
+      serieProof: "0safa01",
+      numProof: "00aa1",
       details: [],
     });
 
     const article = ref({
-      _id: '60afb9985aa8370015020be0',
-      article: 'Hola',
+      _id: "60afb9985aa8370015020be0",
+      article: "Hola",
       quantity: 2,
       price: 1000,
-      discount: 0
+      discount: 0,
     });
 
-    const modals = ref([
-      false,
-      false
-    ])
+    const modals = ref([false, false]);
 
-    const add = (modal)=> {
-      modals.value[modal] = true
-      if(modal === 0) {
-        item.value.person = ''
-        item.value.typeProof = ''
-        item.value.serieProof = ''
-        item.value.numProof = ''
-        item.value.details = []
+    const add = (modal) => {
+      modals.value[modal] = true;
+      if (modal === 0) {
+        item.value.person = "";
+        item.value.typeProof = "";
+        item.value.serieProof = "";
+        item.value.numProof = "";
+        item.value.details = [];
+      } else if (modal === 1) {
+        article.value._id = "";
+        article.value.name = "";
+        article.value.quantity = 0;
+        article.value.price = 0;
+        article.value.discount = 0;
       }
-      else if(modal === 1) {
-        article.value._id = ''
-        article.value.name = ''
-        article.value.quantity = 0
-        article.value.price = 0
-        article.value.discount = 0
-      }
-    }
+    };
 
-    const closeModal = (modal)=> {
-      modals.value[modal] = false
-    }
+    const closeModal = (modal) => {
+      modals.value[modal] = false;
+    };
 
     const addArticle = () => {
-      let index = dataArticle.value.findIndex( item => item._id === article.value._id )
-      article.value.name = dataArticle.value[index].name
-      article.value.price = dataArticle.value[index].price
+      let index = dataArticle.value.findIndex(
+        (item) => item._id === article.value._id
+      );
+      article.value.name = dataArticle.value[index].name;
+      article.value.price = dataArticle.value[index].price;
       item.value.details.push(article);
     };
 
-    const getPerson = () => store.dispatch('getPerson');
-    const getArticle = () => store.dispatch('getArticle');
-    const getCompras = () => store.dispatch('getCompra');
-    const addCompra = item => store.dispatch('addCompra', item);
-    const deleteCompra = item => store.dispatch('deleteCompra', item);
-    const enableCompra = item => store.dispatch('enableCompra', item);
+    const getPerson = () => store.dispatch("getPerson");
+    const getArticle = () => store.dispatch("getArticle");
+    const getCompras = () => store.dispatch("getCompra");
+    const addCompra = (item) => store.dispatch("addCompra", item);
+    const deleteCompra = (item) => store.dispatch("deleteCompra", item);
+    const enableCompra = (item) => store.dispatch("enableCompra", item);
+
+    const columns = ref([
+      { title: "Usuario", dataKey: "usuario" },
+      { title: "Proveedor", dataKey: "proveedor" },
+      { title: "Comprobante", dataKey: "comprobante" },
+      { title: "Serie", dataKey: "serie" },
+      { title: "Número", dataKey: "numero" },
+      { title: "Fecha", dataKey: "fecha" },
+      { title: "Impuesto", dataKey: "impuesto" },
+      { title: "Total", dataKey: "total" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataCompras.value.map((x) => {
+        let state = null;
+        if (x.state == 1) {
+          state = "Activado";
+        } else {
+          state = "Desactivado";
+        }
+        rows.push({
+          usuario: x.user.name,
+          proveedor: x.person.name,
+          comprobante: x.typeProof,
+          serie: x.serieProof,
+          numero: x.numProof,
+          fecha: x.createdAt,
+          impuesto: x.tax,
+          total: x.total,
+          estado: state,
+        });
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de Ingresos", 40, 30);
+        },
+      });
+
+      doc.save("Ingresos.pdf");
+    };
 
     onMounted(() => {
       if (!dataCompras.value.length) {
@@ -285,6 +358,8 @@ export default {
     });
 
     return {
+      generarPDF,
+      columns,
       modals,
       add,
       closeModal,

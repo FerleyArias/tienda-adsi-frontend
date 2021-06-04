@@ -392,7 +392,7 @@ export const modifyPerson = async ({commit, state}, {id, item}) => {
 export const enablePerson = async ({commit, state}, id) => {
   try {
     commit('setLoading');
-    await api.modifyPerson(id, state.token);
+    await api.enablePerson(id, state.token);
     const index = state.persons.findIndex(person => person._id === id);
     let updatedPersons = state.persons;
     updatedPersons[index].state = 1;

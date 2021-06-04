@@ -148,6 +148,7 @@ export default {
       subMenus.value[index] = !subMenus.value[index];
     };
     const logout = () => store.dispatch("logout");
+    
     watch(route, () => {
       visibleBurger.value = false;
       if (route.path === "/login") {

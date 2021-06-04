@@ -95,7 +95,7 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-          {{ modal.option === 1 ? 'añadir' : 'actualizar' }}
+          {{ modal.option === 1 ? "añadir" : "actualizar" }}
         </button>
       </form>
     </div>
@@ -105,6 +105,13 @@
         class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
       >
         Añadir
+      </button>
+      <button
+        type="submit"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+        @click="generarPDF(columns)"
+      >
+        Generar PDF
       </button>
       <div class="overflow-auto">
         <table class="border-collapse border border-black w-full">
@@ -140,8 +147,11 @@
               <td class="border border-black p-2">
                 {{ producto.email }}
               </td>
-              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-                {{ producto.state ? "Activado" : "Inactivo"}}
+              <td
+                :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+                class="border border-black p-2"
+              >
+                {{ producto.state ? "Activado" : "Inactivo" }}
               </td>
               <td class="border border-black p-2">
                 <button
@@ -151,7 +161,7 @@
                 >
                   <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
                 </button>
-                <button 
+                <button
                   v-else
                   class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                   @click="enablePerson(producto._id)"
@@ -173,11 +183,13 @@
   </div>
 </template>
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
-  name: 'Income',
+  name: "Income",
   setup() {
     const store = useStore();
     const error = computed(() => store.state.error);
@@ -190,26 +202,26 @@ export default {
     });
 
     const item = ref({
-      typePerson: 'Proveedor',
-      name: '',
-      document: '',
-      idDocument: '',
-      address: '',
-      phone: '',
-      email: '',
+      typePerson: "Proveedor",
+      name: "",
+      document: "",
+      idDocument: "",
+      address: "",
+      phone: "",
+      email: "",
     });
 
     const add = () => {
       (modal.value.active = true), (modal.value.option = 1);
-      item.value.name = '';
-      item.value.document = '';
-      item.value.idDocument = '';
-      item.value.address = '';
-      item.value.phone = '';
-      item.value.email = '';
+      item.value.name = "";
+      item.value.document = "";
+      item.value.idDocument = "";
+      item.value.address = "";
+      item.value.phone = "";
+      item.value.email = "";
     };
 
-    const modify = person => {
+    const modify = (person) => {
       (modal.value.active = true), (modal.value.option = 2);
       modal.value.id = person._id;
       item.value.name = person.name;
@@ -228,11 +240,56 @@ export default {
     const dataPersons = computed(() => store.state.persons);
     const dataVendors = computed(() => store.getters.allVendors);
 
-    const getPerson = () => store.dispatch('getPerson');
-    const addPerson = item => store.dispatch('addPerson', item);
-    const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
-    const deletePerson = item => store.dispatch('deletePerson', item);
-    const enablePerson = item => store.dispatch('enablePerson', item);
+    const getPerson = () => store.dispatch("getPerson");
+    const addPerson = (item) => store.dispatch("addPerson", item);
+    const modifyPerson = (id, item) =>
+      store.dispatch("modifyPerson", { id, item });
+    const deletePerson = (item) => store.dispatch("deletePerson", item);
+    const enablePerson = (item) => store.dispatch("enablePerson", item);
+
+    const columns = ref([
+      { title: "Nombre", dataKey: "nombre" },
+      { title: "Tipo", dataKey: "tipo" },
+      { title: "Documento", dataKey: "documento" },
+      { title: "Número", dataKey: "numero" },
+      { title: "Dirección", dataKey: "direccion" },
+      { title: "Teléfono", dataKey: "telefono" },
+      { title: "Correo electrónico", dataKey: "email" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataPersons.value.map((x) => {
+        if (x.typePerson === "Proveedor") {
+            let state = null;
+          if (state == 1) {
+            x.state = "Activado";
+          } else {
+            state = "Desactivado";
+          }
+          rows.push({
+            nombre: x.name,
+            tipo: x.typePerson,
+            documento: x.document,
+            numero: x.idDocument,
+            direccion: x.address,
+            telefono: x.phone,
+            email: x.email,
+            estado: state,
+          });
+        }
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de Proveedores", 40, 30);
+        },
+      });
+
+      doc.save("Proveedores.pdf");
+    };
 
     onMounted(() => {
       if (!dataPersons.value.length) {
@@ -241,6 +298,8 @@ export default {
     });
 
     return {
+      generarPDF,
+      columns,
       addPerson,
       deletePerson,
       enablePerson,

@@ -19,6 +19,8 @@
 <script>
 import {useStore} from 'vuex'
 import {ref, computed} from 'vue'
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
 
 export default {
   name: 'Login',

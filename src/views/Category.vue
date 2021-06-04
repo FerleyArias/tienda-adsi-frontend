@@ -57,6 +57,13 @@
       >
         Añadir
       </button>
+      <button
+        type="submit"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+        @click="generarPDF(columns)"
+      >
+        Generar PDF
+      </button>
       <div class="overflow-auto">
         <table class="border-collapse border border-black w-full">
           <thead>
@@ -113,6 +120,8 @@
 <script>
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
   name: "Category",
@@ -170,7 +179,42 @@ export default {
       }
     });
 
+    const columns = ref([
+      { title: "Nombre", dataKey: "nombre" },
+      { title: "Descripción", dataKey: "descripcion" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataCategory.value.map((x) => {
+          let state = null;
+        if (x.state == 1) {
+          state = "Activado";
+        } else {
+          state = "Desactivado";
+        }
+
+        rows.push({
+          nombre: x.name,
+          descripcion: x.description,
+          estado: state,
+        });
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de Categorias", 40, 30);
+        },
+      });
+
+      doc.save("Categorias.pdf");
+    };
+
     return {
+      columns,
+      generarPDF,
       closeModal,
       add,
       modal,

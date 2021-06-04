@@ -1,22 +1,28 @@
 <template>
   <div>
     <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-      <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
-      </button>
+      <button
+        @click="closeModal"
+        class="absolute bg-black w-full h-full opacity-50"
+      ></button>
       <form
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
-        @submit.prevent="() => {
-          if(modal.option === 1) {
-            addUser(item)
-          } else {
-            modifyUser(modal.id, item)
+        @submit.prevent="
+          () => {
+            if (modal.option === 1) {
+              addUser(item);
+            } else {
+              modifyUser(modal.id, item);
+            }
+            closeModal();
           }
-          closeModal()
-        }">
-        <span @click="closeModal" class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        "
+      >
+        <span
+          @click="closeModal"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </span>
         <h1 class="text-center mb-3 col-span-2">Información de los usuarios</h1>
         <div class="flex flex-col">
@@ -69,7 +75,7 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-         {{ modal.option === 1 ? "añadir" : "actualizar" }}
+          {{ modal.option === 1 ? "añadir" : "actualizar" }}
         </button>
       </form>
     </div>
@@ -79,6 +85,13 @@
         class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
       >
         Añadir
+      </button>
+      <button
+        type="submit"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+        @click="generarPDF(columns)"
+      >
+        Generar PDF
       </button>
       <div class="overflow-auto">
         <table class="border-collapse border border-black w-full">
@@ -102,8 +115,11 @@
               <td class="border border-black p-2">
                 {{ producto.rol }}
               </td>
-              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-                {{ producto.state ? "Activado" : "Inactivo"}}
+              <td
+                :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+                class="border border-black p-2"
+              >
+                {{ producto.state ? "Activado" : "Inactivo" }}
               </td>
               <td class="border border-black p-2">
                 <button
@@ -113,7 +129,7 @@
                 >
                   <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
                 </button>
-                <button 
+                <button
                   v-else
                   class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                   @click="enableUser(producto._id)"
@@ -136,10 +152,13 @@
 </template>
 
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
 export default {
-  name: 'Users',
+  name: "Users",
   setup() {
     const store = useStore();
     const error = computed(() => store.state.error);
@@ -147,48 +166,81 @@ export default {
     const dataUsers = computed(() => store.state.users);
 
     const item = ref({
-      name: '',
-      email: '',
-      password: '',
-      rol: '',
+      name: "",
+      email: "",
+      password: "",
+      rol: "",
     });
 
     const modal = ref({
       active: false,
       option: null,
-      id: null
-    })
+      id: null,
+    });
 
-    const add = ()=> {
-      modal.value.active = true,
-      modal.value.option = 1
-      item.value.name = ''
-      item.value.email = ''
-      item.value.rol = ''
-      item.value.password = ''
-    }
+    const add = () => {
+      (modal.value.active = true), (modal.value.option = 1);
+      item.value.name = "";
+      item.value.email = "";
+      item.value.rol = "";
+      item.value.password = "";
+    };
 
-    const modify = (user)=> {
-      modal.value.active = true,
-      modal.value.option = 2
-      modal.value.id = user._id
-      item.value.name = user.name
-      item.value.email = user.email
-      item.value.rol = user.rol
-      item.value.password = user.password
-    }
+    const modify = (user) => {
+      (modal.value.active = true), (modal.value.option = 2);
+      modal.value.id = user._id;
+      item.value.name = user.name;
+      item.value.email = user.email;
+      item.value.rol = user.rol;
+      item.value.password = user.password;
+    };
 
     const closeModal = () => {
-      modal.value.active = false,
-      modal.value.option = null,
-      modal.value.id = null
-    }
+      (modal.value.active = false),
+        (modal.value.option = null),
+        (modal.value.id = null);
+    };
 
-    const getUsers = () => store.dispatch('getUser');
-    const addUser = item => store.dispatch('addUser', item);
-    const modifyUser = (id, item) => store.dispatch('modifyUser', {id, item});
-    const deleteUser = id => store.dispatch('deleteUser', id);
-    const enableUser = id => store.dispatch('enableUser', id);
+    const getUsers = () => store.dispatch("getUser");
+    const addUser = (item) => store.dispatch("addUser", item);
+    const modifyUser = (id, item) => store.dispatch("modifyUser", { id, item });
+    const deleteUser = (id) => store.dispatch("deleteUser", id);
+    const enableUser = (id) => store.dispatch("enableUser", id);
+
+    const columns = ref([
+      { title: "Nombre", dataKey: "nombre" },
+      { title: "Email", dataKey: "email" },
+      { title: "Rol", dataKey: "rol" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataUsers.value.map((x) => {
+          let state = null;
+        if (x.state == 1) {
+          state = "Activado";
+        } else {
+          state = "Desactivado";
+        }
+
+        rows.push({
+          nombre: x.name,
+          email: x.email,
+          rol: x.rol,
+          estado: state,
+        });
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de usuarios", 40, 30);
+        },
+      });
+
+      doc.save("Ventas.pdf");
+    };
 
     onMounted(() => {
       if (!dataUsers.value.length) {
@@ -197,6 +249,8 @@ export default {
     });
 
     return {
+      generarPDF,
+      columns,
       addUser,
       modifyUser,
       deleteUser,
@@ -208,7 +262,7 @@ export default {
       modal,
       add,
       modify,
-      closeModal
+      closeModal,
     };
   },
 };

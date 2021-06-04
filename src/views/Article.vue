@@ -1,24 +1,32 @@
 <template>
   <div>
     <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-      <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
-      </button>
+      <button
+        @click="closeModal"
+        class="absolute bg-black w-full h-full opacity-50"
+      ></button>
       <form
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
-        @submit.prevent="() => {
-          if(modal.option === 1) {
-            addArticle(item)
-          } else {
-            modifyArticle(modal.id, item)
+        @submit.prevent="
+          () => {
+            if (modal.option === 1) {
+              addArticle(item);
+            } else {
+              modifyArticle(modal.id, item);
+            }
+            closeModal();
           }
-          closeModal()
-        }">
-        <span @click="closeModal" class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        "
+      >
+        <span
+          @click="closeModal"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </span>
-        <h1 class="text-center mb-3 col-span-2">Información de los articulos</h1>
+        <h1 class="text-center mb-3 col-span-2">
+          Información de los articulos
+        </h1>
         <div class="col-span-2 flex flex-col">
           <label for="name">Nombre</label>
           <input
@@ -82,20 +90,35 @@
             name="category"
             v-model="item.category"
           >
-            <option v-for="(category, i) in dataCategory" :key="i" :value="category._id">{{category.name}}</option>
+            <option
+              v-for="(category, i) in dataCategory"
+              :key="i"
+              :value="category._id"
+              >{{ category.name }}</option
+            >
           </select>
         </div>
         <button
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-         {{ modal.option === 1 ? "añadir" : "actualizar" }}
+          {{ modal.option === 1 ? "añadir" : "actualizar" }}
         </button>
       </form>
     </div>
     <div class="mx-auto max-w-6xl">
-      <button @click="add" class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3">
+      <button
+        @click="add"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
+      >
         Añadir
+      </button>
+      <button
+        type="submit"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+        @click="generarPDF(columns)"
+      >
+        Generar PDF
       </button>
       <div class="overflow-auto">
         <table class="border-collapse border border-black w-full">
@@ -131,8 +154,11 @@
               <td class="border border-black p-2">
                 {{ producto.description }}
               </td>
-              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-                {{ producto.state ? "Activado" : "Inactivo"}}
+              <td
+                :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+                class="border border-black p-2"
+              >
+                {{ producto.state ? "Activado" : "Inactivo" }}
               </td>
               <td class="border border-black p-2">
                 <button
@@ -142,7 +168,7 @@
                 >
                   <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
                 </button>
-                <button 
+                <button
                   v-else
                   class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                   @click="enableArticle(producto._id)"
@@ -164,10 +190,13 @@
   </div>
 </template>
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
 export default {
-  name: 'Article',
+  name: "Article",
   setup() {
     const store = useStore();
 
@@ -180,64 +209,105 @@ export default {
     const modal = ref({
       active: false,
       option: null,
-      id: null
-    })
+      id: null,
+    });
     const item = ref({
-      code: '',
-      name: '',
-      category: '',
+      code: "",
+      name: "",
+      category: "",
       stock: 0,
       price: 0,
-      description: '',
+      description: "",
     });
 
-    const add = ()=> {
-      modal.value.active = true,
-      modal.value.option = 1
-      item.value.name = ''
-      item.value.description = ''
-      item.value.category = ''
-      item.value.stock = 0
-      item.value.price = 0
-      item.value.code = ''
-    }
+    const add = () => {
+      (modal.value.active = true), (modal.value.option = 1);
+      item.value.name = "";
+      item.value.description = "";
+      item.value.category = "";
+      item.value.stock = 0;
+      item.value.price = 0;
+      item.value.code = "";
+    };
 
-    const modify = (article)=> {
-      modal.value.active = true,
-      modal.value.option = 2
-      modal.value.id = article._id
-      item.value.name = article.name
-      item.value.description = article.description
-      item.value.category = article.category._id
-      item.value.stock = article.stock
-      item.value.price = article.price
-      item.value.code = article.code
-    }
+    const modify = (article) => {
+      (modal.value.active = true), (modal.value.option = 2);
+      modal.value.id = article._id;
+      item.value.name = article.name;
+      item.value.description = article.description;
+      item.value.category = article.category._id;
+      item.value.stock = article.stock;
+      item.value.price = article.price;
+      item.value.code = article.code;
+    };
 
     const closeModal = () => {
-      modal.value.active = false,
-      modal.value.option = null,
-      modal.value.id = null
-    }
+      (modal.value.active = false),
+        (modal.value.option = null),
+        (modal.value.id = null);
+    };
 
-    const addArticle = item => store.dispatch('addArticle', item);
-    const modifyArticle = (id, item) => store.dispatch('modifyArticle', {id, item});
-    const deleteArticle = id => store.dispatch('deleteArticle', id);
-    const enableArticle = id => store.dispatch('enableArticle', id);
+    const addArticle = (item) => store.dispatch("addArticle", item);
+    const modifyArticle = (id, item) =>
+      store.dispatch("modifyArticle", { id, item });
+    const deleteArticle = (id) => store.dispatch("deleteArticle", id);
+    const enableArticle = (id) => store.dispatch("enableArticle", id);
 
-    const getArticle = () => store.dispatch('getArticle');
-    const getCategory = () => store.dispatch('getCategories');
+    const getArticle = () => store.dispatch("getArticle");
+    const getCategory = () => store.dispatch("getCategories");
+
+    const columns = ref([
+      { title: "Codigo", dataKey: "codigo" },
+      { title: "Nombre", dataKey: "nombre" },
+      { title: "Categoria", dataKey: "categoria" },
+      { title: "Stock", dataKey: "stock" },
+      { title: "Precio venta", dataKey: "precio" },
+      { title: "Descripción", dataKey: "descripcion" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataArticle.value.map((x) => {
+        let state = null;
+        if (x.state == 1) {
+          state = "Activado";
+        } else {
+          state = "Desactivado";
+        }
+        rows.push({
+          codigo: x.code,
+          nombre: x.name,
+          categoria: x.category.name,
+          stock: x.stock,
+          precio: x.price,
+          descripcion: x.description,
+          estado: state,
+        });
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de Articulos", 40, 30);
+        },
+      });
+
+      doc.save("Articulos.pdf");
+    };
 
     onMounted(() => {
       if (!dataArticle.value.length) {
         getArticle();
       }
-      if(!dataCategory.value.length) {
-        getCategory()
+      if (!dataCategory.value.length) {
+        getCategory();
       }
     });
 
     return {
+      generarPDF,
+      columns,
       add,
       modify,
       closeModal,

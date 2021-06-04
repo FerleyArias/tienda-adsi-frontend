@@ -1,22 +1,28 @@
 <template>
   <div>
     <div v-show="modal.active" class="fixed z-10 top-0 bottom-0 right-0 left-0">
-      <button @click="closeModal" class="absolute bg-black w-full h-full opacity-50">
-      </button>
+      <button
+        @click="closeModal"
+        class="absolute bg-black w-full h-full opacity-50"
+      ></button>
       <form
         class="grid grid-cols-2 gap-x-3 relative z-20 mx-auto max-w-lg bg-white p-5 mt-10 "
-        @submit.prevent="() => {
-          if(modal.option === 1) {
-            addPerson(item)
-          } else {
-            modifyPerson(modal.id, item)
+        @submit.prevent="
+          () => {
+            if (modal.option === 1) {
+              addPerson(item);
+            } else {
+              modifyPerson(modal.id, item);
+            }
+            closeModal();
           }
-          closeModal()
-        }">
-        <span @click="closeModal" class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500" >
-          <font-awesome-icon
-            icon="times"
-          />
+        "
+      >
+        <span
+          @click="closeModal"
+          class="cursor-pointer absolute focus:outline-none top-1 right-2 text-gray-500"
+        >
+          <font-awesome-icon icon="times" />
         </span>
         <h1 class="text-center mb-3 col-span-2">Información del proveedor</h1>
         <div class="col-span-2 flex flex-col">
@@ -89,14 +95,24 @@
           type="submit"
           class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
         >
-         {{ modal.option === 1 ? "añadir" : "actualizar" }}
+          {{ modal.option === 1 ? "añadir" : "actualizar" }}
         </button>
       </form>
     </div>
 
     <div class="mx-auto max-w-6xl">
-      <button @click="add" class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3">
+      <button
+        @click="add"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3"
+      >
         Añadir
+      </button>
+      <button
+        type="submit"
+        class="p-2 focus:outline-none text-white bg-blue-500 rounded-md mb-3 ml-6"
+        @click="generarPDF(columns)"
+      >
+        Generar PDF
       </button>
       <div class="overflow-auto">
         <table class="border-collapse border border-black w-full">
@@ -136,8 +152,11 @@
               <td class="border border-black p-2">
                 {{ producto.email }}
               </td>
-              <td :class="[producto.state ? 'text-blue-700' : 'text-red-700']" class="border border-black p-2">
-                {{ producto.state ? "Activado" : "Inactivo"}}
+              <td
+                :class="[producto.state ? 'text-blue-700' : 'text-red-700']"
+                class="border border-black p-2"
+              >
+                {{ producto.state ? "Activado" : "Inactivo" }}
               </td>
               <td class="border border-black p-2">
                 <button
@@ -147,7 +166,7 @@
                 >
                   <font-awesome-icon class="" :icon="['far', 'trash-alt']" />
                 </button>
-                <button 
+                <button
                   v-else
                   class="p-2 focus:outline-none text-white bg-green-500 rounded-md mr-2"
                   @click="enablePerson(producto._id)"
@@ -169,11 +188,13 @@
   </div>
 </template>
 <script>
-import {useStore} from 'vuex';
-import {computed, onMounted, ref} from 'vue';
+import { useStore } from "vuex";
+import { computed, onMounted, ref } from "vue";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default {
-  name: 'Income',
+  name: "Income",
   setup() {
     /*Instanciamos el store*/
     const store = useStore();
@@ -182,58 +203,101 @@ export default {
     const loading = computed(() => store.state.loading);
     /*Traer cosas del state*/
     const dataPersons = computed(() => store.state.persons);
-    const dataCustomers = computed(() => store.getters.allCustomers)
+    const dataCustomers = computed(() => store.getters.allCustomers);
     /*Agregamos el form para la nueva persona*/
     const modal = ref({
       active: false,
       option: null,
-      id: null
-    })
-
-    const item = ref({
-      typePerson: 'Cliente',
-      name: '',
-      document: '',
-      idDocument: '',
-      address: '',
-      phone: '',
-      email: '',
+      id: null,
     });
 
-    const add = ()=> {
-      modal.value.active = true,
-      modal.value.option = 1
-      item.value.name = ''
-      item.value.document = ''
-      item.value.idDocument = ''
-      item.value.address = ''
-      item.value.phone = ''
-      item.value.email = ''
-    }
+    const item = ref({
+      typePerson: "Cliente",
+      name: "",
+      document: "",
+      idDocument: "",
+      address: "",
+      phone: "",
+      email: "",
+    });
 
-    const modify = person => {
-      modal.value.active = true,
-      modal.value.option = 2
-      modal.value.id = person._id
-      item.value.name = person.name
-      item.value.document = person.document
-      item.value.idDocument = person.idDocument
-      item.value.address = person.address
-      item.value.phone = person.phone
-      item.value.email = person.email
-    }
+    const add = () => {
+      (modal.value.active = true), (modal.value.option = 1);
+      item.value.name = "";
+      item.value.document = "";
+      item.value.idDocument = "";
+      item.value.address = "";
+      item.value.phone = "";
+      item.value.email = "";
+    };
+
+    const modify = (person) => {
+      (modal.value.active = true), (modal.value.option = 2);
+      modal.value.id = person._id;
+      item.value.name = person.name;
+      item.value.document = person.document;
+      item.value.idDocument = person.idDocument;
+      item.value.address = person.address;
+      item.value.phone = person.phone;
+      item.value.email = person.email;
+    };
 
     const closeModal = () => {
-      modal.value.active = false,
-      modal.value.option = null,
-      modal.value.id = null
-    }
+      (modal.value.active = false),
+        (modal.value.option = null),
+        (modal.value.id = null);
+    };
 
-    const addPerson = item => store.dispatch('addPerson', item);
-    const modifyPerson = (id, item) => store.dispatch('modifyPerson', {id, item});
-    const getPerson = () => store.dispatch('getPerson');
-    const deletePerson = item => store.dispatch('deletePerson', item);
-    const enablePerson = item => store.dispatch('enablePerson', item);
+    const addPerson = (item) => store.dispatch("addPerson", item);
+    const modifyPerson = (id, item) =>
+      store.dispatch("modifyPerson", { id, item });
+    const getPerson = () => store.dispatch("getPerson");
+    const deletePerson = (item) => store.dispatch("deletePerson", item);
+    const enablePerson = (item) => store.dispatch("enablePerson", item);
+
+    const columns = ref([
+      { title: "Nombre", dataKey: "nombre" },
+      { title: "Tipo", dataKey: "tipo" },
+      { title: "Documento", dataKey: "documento" },
+      { title: "Número", dataKey: "numero" },
+      { title: "Dirección", dataKey: "direccion" },
+      { title: "Teléfono", dataKey: "telefono" },
+      { title: "Correo electrónico", dataKey: "email" },
+      { title: "Estado", dataKey: "estado" },
+    ]);
+
+    const generarPDF = (columns) => {
+      const rows = [];
+      dataPersons.value.map((x) => {
+        if (x.typePerson === "Cliente") {
+            let state = null;
+          if (x.state == 1) {
+            state = "Activado";
+          } else {
+            state = "Desactivado";
+          }
+          rows.push({
+            nombre: x.name,
+            tipo: x.typePerson,
+            documento: x.document,
+            numero: x.idDocument,
+            direccion: x.address,
+            telefono: x.phone,
+            email: x.email,
+            estado: state,
+          });
+        }
+      });
+      const doc = new jsPDF("l", "pt");
+      doc.autoTable(columns, rows, {
+        margin: { top: 60 },
+        addPageContent: function() {
+          doc.text("Lista de Clientes", 40, 30);
+        },
+      });
+
+      doc.save("Clientes.pdf");
+    };
 
     onMounted(() => {
       if (!dataPersons.value.length) {
@@ -242,6 +306,8 @@ export default {
     });
 
     return {
+      generarPDF,
+      columns,
       deletePerson,
       enablePerson,
       modifyPerson,
@@ -254,7 +320,7 @@ export default {
       closeModal,
       modal,
       add,
-      modify
+      modify,
     };
   },
 };
