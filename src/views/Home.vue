@@ -5,7 +5,7 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { Doughnut } from "vue-chart-3";
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -17,14 +17,23 @@ export default {
     const store = useStore();
     const sales = computed(() => store.state.ventas);
     const getSales = () => store.dispatch("getVenta");
-
+    const dataValues = ref([0,0,0,0,0,0,0,0,0,0,0,0]);
+    
     const getSalesByMonth = (sales) => {
-        console.log(sales)
+      sales.forEach(sale => {
+        const date = new Date(sale.createdAt)
+        const month = date.getMonth()
+        dataValues.value[month]++
+        console.log(dataValues.value)
+      })
     }
 
-    getSalesByMonth(sales)
+    watch(sales, (sales) => {
+      if(sales) {
+        getSalesByMonth(sales)
+      }
+    })
 
-    const dataValues = ref([30, 40, 60, 70, 5, 30, 40, 60, 70, 5, 12 ,2]);
     const testData = computed(() => ({
       labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       datasets: [

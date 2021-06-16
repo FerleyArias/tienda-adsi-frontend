@@ -9,7 +9,7 @@
         class="grid grid-cols-3 gap-x-3 relative z-20 mx-auto max-w-5xl bg-white p-5 mt-10 "
         @submit.prevent="
           () => {
-            addCompra(item);
+            addVenta(item);
             closeModal(0);
           }
         "
@@ -245,6 +245,8 @@ export default {
     const dataPersons = computed(() => store.state.persons);
     const dataCustomers = computed(() => store.getters.allCustomers);
     const dataArticle = computed(() => store.state.articles);
+
+    console.log(userLogin.value)
 
     const item = ref({
       user: userLogin.value._id,

@@ -37,10 +37,10 @@ export default {
     state.loading = false;
   },
   setUsers(state, payload) {
-    state.users= payload;
+    state.users = payload;
     state.loading = false;
   },
   setRol(state, payload) {
-      state.rol = payload;
-  }
+    state.rol = payload;
+  },
 };

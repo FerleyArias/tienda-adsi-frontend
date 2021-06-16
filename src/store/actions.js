@@ -19,7 +19,6 @@ export const login = async ({commit}, user) => {
     localStorage.setItem('token', userDB.token);
     localStorage.setItem('userLogin', userDB.user);
     localStorage.setItem('rol', userDB.user.rol);
-
     getRol({commit});
     
     router.push('/');
@@ -33,7 +32,7 @@ export const login = async ({commit}, user) => {
 export const getRol = ({commit}) => {
     const rol = localStorage.getItem('rol')
     if (rol) {
-        commit('setRol', rol);  
+        commit('setRol', rol);
     }
 }
 
@@ -54,6 +53,7 @@ export const getToken = ({commit}) => {
     commit('setToken', localStorage.getItem('token'));
   }
   if (localStorage.getItem('userLogin')) {
+    console.log(localStorage.getItem('userLogin'))
     commit('setUserLogin', localStorage.getItem('userLogin'));
   }
 };
