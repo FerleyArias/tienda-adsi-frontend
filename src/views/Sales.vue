@@ -75,12 +75,37 @@
             <font-awesome-icon class="" :icon="['fas', 'plus-circle']" />
           </span>
         </div>
-
+        <table class="border-collapse border border-black w-full">
+          <thead>
+            <tr class="bg-blue-500 text-white">
+              <th class="border border-black p-2">Articulo</th>
+              <th class="border border-black p-2">Cantidad</th>
+              <th class="border border-black p-2">Precio</th>
+              <th class="border border-black p-2">Descuento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(producto, i) in item.details" :key="i">
+              <td class="border border-black p-2">
+                {{ producto.article }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.quantity }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.price }}
+              </td>
+              <td class="border border-black p-2">
+                {{ producto.discount }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <div class="flex flex-col">
           <button
             class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
           >
-            añadir
+            Añadir compra
           </button>
         </div>
       </form>
@@ -241,15 +266,13 @@ export default {
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
     const dataVentas = computed(() => store.state.ventas);
-    const userLogin = computed(() => store.state.userLogin);
+    // const userLogin = computed(() => store.state.userLogin);
     const dataPersons = computed(() => store.state.persons);
     const dataCustomers = computed(() => store.getters.allCustomers);
     const dataArticle = computed(() => store.state.articles);
 
-    console.log(userLogin.value)
-
     const item = ref({
-      user: userLogin.value._id,
+      user: "6079bde5488271001556f61d",
       person: "605b77a8b1692a568abe22a7",
       typeProof: "0001",
       serieProof: "0092",
@@ -294,7 +317,10 @@ export default {
       );
       article.value.name = dataArticle.value[index].name;
       article.value.price = dataArticle.value[index].price;
-      item.value.details.push(article);
+      item.value.details.push({...article.value});
+      item.value.details.forEach((o) => {
+          console.log(o)
+      })
     };
 
     const getVentas = () => store.dispatch("getVenta");

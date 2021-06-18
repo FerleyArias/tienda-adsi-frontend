@@ -24,7 +24,6 @@ export default {
         const date = new Date(sale.createdAt)
         const month = date.getMonth()
         dataValues.value[month]++
-        console.log(dataValues.value)
       })
     }
 

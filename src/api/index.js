@@ -228,17 +228,18 @@ export const getVentaId = async (id, token) => {
 
 //Añadir ventas
 export const addVenta = async (item, token) => {
-  const res = await fetch(`${BASE_URL}sale/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      token,
-    },
-    body: JSON.stringify(item),
-  });
-  const newItem = await res.json();
-  return newItem.sale;
-};
+    const res = await fetch(`${BASE_URL}sale/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        token: token,
+      },
+      body: JSON.stringify(item),
+    });
+  
+    const newItem = await res.json();
+    return newItem;
+  };
 
 //Desactivar "eliminar" ventas
 export const deleteVenta = async (id, token) => {
