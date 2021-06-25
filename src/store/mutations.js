@@ -8,6 +8,10 @@ export default {
     state.userLogin = payload;
     state.loading = false;
   },
+  setUserId(state, payload) {
+    state.userId = payload;
+    state.loading = false;
+  },
   setError(state, payload) {
     state.error = payload;
     state.loading = false;

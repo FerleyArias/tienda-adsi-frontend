@@ -7,6 +7,7 @@ const state = {
   token: null,
   rol: null,
   userLogin: null,
+  userId: null,
   error: null,
   loading: false,
   categories: [],

@@ -71,11 +71,68 @@
           </select>
         </div>
         <div class="flex items-center">
-          <span class="text-2xl h-7 text-green-700" @click="add(1)">
+          <span class="text-2xl h-7 text-green-700 cursor-pointer" @click="add(1)">
             <font-awesome-icon class="" :icon="['fas', 'plus-circle']" />
           </span>
         </div>
-
+        <div class="flex flex-col col-span-3 max-h-60 overflow-hidden" v-show="item.details.length">
+          <table class="border-collapse border border-black w-max block overflow-auto">
+            <thead>
+              <tr class="bg-gray-200 border border border-l-0 border-r-0 border-black">
+                <th class="p-2"></th>
+                <th class="p-2">Nombre</th>
+                <th class="p-2">Precio</th>
+                <th class="p-2">Cantidad</th>
+                <th class="p-2">Descuento</th>
+                <th class="p-2">Sub Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(producto, i) in item.details" :key="i">
+                 <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <span
+                    class="cursor-pointer"
+                    @click="deleteArticle(i)"
+                  >
+                    <font-awesome-icon class="text-red-700 text-lg" :icon="['fas', 'minus-circle']" />
+                  </span>
+                </td>
+                <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <span>
+                    {{ producto.article }}
+                  </span>
+                </td>
+                <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <span>
+                    {{ producto.price }}
+                  </span>
+                </td>
+                <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <input
+                    class="focus:outline-none p-1 border border-gray-500 rounded-md"
+                    type="number" 
+                    v-model="producto.quantity"
+                  >
+                </td>
+                <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <input
+                    class="focus:outline-none p-1 border border-gray-500 rounded-md"
+                    type="number" 
+                    v-model="producto.discount"
+                  >
+                </td>
+                <td class="border border border-l-0 border-r-0 border-black p-2">
+                  <span>
+                    {{ subTotalArticle(i) }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex flex-col col-span-3">
+          <span>Total: ${{totalArticles}}</span>
+        </div>
         <div class="flex flex-col">
           <button
             class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
@@ -241,28 +298,25 @@ export default {
     const error = computed(() => store.state.error);
     const loading = computed(() => store.state.loading);
     const dataVentas = computed(() => store.state.ventas);
-    const userLogin = computed(() => store.state.userLogin);
+    const userId = computed(() => store.state.userId);
     const dataPersons = computed(() => store.state.persons);
     const dataCustomers = computed(() => store.getters.allCustomers);
     const dataArticle = computed(() => store.state.articles);
-
-    console.log(userLogin.value)
-
     const item = ref({
-      user: userLogin.value._id,
-      person: "605b77a8b1692a568abe22a7",
-      typeProof: "0001",
-      serieProof: "0092",
-      numProof: "0083",
+      user: userId.value,
+      person: "",
+      typeProof: "",
+      serieProof: "",
+      numProof: "",
       details: [],
     });
 
     const article = ref({
-      _id: "60afb9985aa8370015020be0",
-      article: "Hp Pro Book",
-      quantity: 2,
-      price: 1000,
-      discount: 1000,
+      _id: "",
+      article: "",
+      quantity: 0,
+      price: 0,
+      discount: 0,
     });
 
     const modals = ref([false, false]);
@@ -292,10 +346,26 @@ export default {
       let index = dataArticle.value.findIndex(
         (item) => item._id === article.value._id
       );
-      article.value.name = dataArticle.value[index].name;
+      article.value.article = dataArticle.value[index].name;
       article.value.price = dataArticle.value[index].price;
-      item.value.details.push(article);
+      item.value.details.push({...article.value});
     };
+
+    const deleteArticle = index => {
+      item.value.details.splice(index,1)
+    }
+
+    const subTotalArticle = index => {
+      const article = item.value.details[index]
+      const total = (article.price * article.quantity) - article.discount
+      return total
+    }
+
+    const totalArticles = computed(() => {
+      let total = 0
+      item.value.details.forEach(article => total+= (article.price * article.quantity) - article.discount)
+      return total
+    })
 
     const getVentas = () => store.dispatch("getVenta");
     const getPerson = () => store.dispatch("getPerson");
@@ -367,7 +437,10 @@ export default {
       add,
       closeModal,
       dataCustomers,
+      subTotalArticle,
       addArticle,
+      deleteArticle,
+      totalArticles,
       addVenta,
       deleteVenta,
       enableVenta,
