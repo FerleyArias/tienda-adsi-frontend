@@ -137,7 +137,7 @@
           <button
             class=" text-white font-bold bg-blue-600 p-2 focus:outline-none mt-3 w-min rounded-sm"
           >
-            añadir
+            Añadir compra
           </button>
         </div>
       </form>
